@@ -19,12 +19,12 @@ public class DistanceManager : MonoBehaviour
     {
         if (!playerControllerScript.gameOver)
         {
-            StartCoroutine(distanceAdd());
+            StartCoroutine(DistanceAdd());
             distanceText.text = "Distance: " + distance + "m";
         }
     }
 
-    IEnumerator distanceAdd()
+    IEnumerator DistanceAdd()
     {
         yield return new WaitForSeconds(1);
         distance += 2;
