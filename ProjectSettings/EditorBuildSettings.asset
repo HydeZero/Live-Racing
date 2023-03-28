@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/My Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Loading Screen.unity
+    guid: c0c1eebe4fa1c28488d6f67771459a40
   m_configObjects: {}

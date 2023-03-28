@@ -8,9 +8,14 @@ using UnityEditor;
 
 public class MainMenuUIManager : MonoBehaviour
 {
-    public void BeginGame()
+    public void BeginDistance()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void BeginCareer()
+    {
+        SceneManager.LoadScene(2);
     }
 
     public void ExitGame()
