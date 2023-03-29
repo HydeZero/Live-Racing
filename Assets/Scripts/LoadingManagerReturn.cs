@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadingManager : MonoBehaviour
+public class LoadingManagerReturn : MonoBehaviour
 {
     public float rotateSpeed = 0.0f;
     // Start is called before the first frame update
@@ -24,6 +24,6 @@ public class LoadingManager : MonoBehaviour
     IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(0);
     }
 }
