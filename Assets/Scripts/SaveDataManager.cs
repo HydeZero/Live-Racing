@@ -14,12 +14,11 @@ public class SaveDataManager : MonoBehaviour
 
     public void SaveGameData()
     {
-        // sets the serializable save data
         SaveData data = new SaveData();
-        data.playerName = "This is a savefile test.";
-        // converts the variables into JSON format.
+        data.playerName = "Hey";
+
         string json = JsonUtility.ToJson(data);
-        // Writes the json data to a file
+
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
 
