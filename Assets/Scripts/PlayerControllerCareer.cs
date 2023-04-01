@@ -8,9 +8,12 @@ public class PlayerControllerCareer : MonoBehaviour
     public float accelerationInput;
     public float speed;
     public float turnSpeed;
+    public Rigidbody playerRB;
+    public Vector3 direction;
     // Start is called before the first frame update
     void Start()
     {
+        playerRB = gameObject.GetComponent<Rigidbody>();
         
     }
 
@@ -20,7 +23,7 @@ public class PlayerControllerCareer : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         accelerationInput = Input.GetAxis("Vertical");
 
-        transform.Translate(new Vector3(0, 0, accelerationInput * speed * Time.deltaTime));
-        transform.Rotate(new Vector3(0, turnSpeed * horizontalInput * Time.deltaTime * accelerationInput));
+        transform.Translate(new Vector3(0, 0, Time.deltaTime * speed * accelerationInput));
+        transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
     }
 }

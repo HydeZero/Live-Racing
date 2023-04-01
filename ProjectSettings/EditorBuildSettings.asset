@@ -14,9 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Loading Screen.unity
     guid: c0c1eebe4fa1c28488d6f67771459a40
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SaveTestScene.unity
     guid: bd79925704f2f6048b8c165f4cc75967
+  - enabled: 1
+    path: Assets/Scenes/Career Mode.unity
+    guid: 6acb03edb93c9fc4aba70cf8ff2166a6
   - enabled: 1
     path: Assets/Scenes/Loading Screen Return.unity
     guid: e67dcd6bd91c07b42a8f13778cf6f9b9
