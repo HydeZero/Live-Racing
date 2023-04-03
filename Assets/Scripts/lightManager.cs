@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class lightManager : MonoBehaviour
+public class LightManager : MonoBehaviour
 {
     public bool IsLightOn = false;
     // Start is called before the first frame update

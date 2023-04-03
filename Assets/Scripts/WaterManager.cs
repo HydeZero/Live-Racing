@@ -21,13 +21,7 @@ public class WaterManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(FallThenReload());
+            SceneManager.LoadScene("Career Mode");
         }
-    }
-
-    IEnumerator FallThenReload()
-    {
-        yield return new WaitForSeconds(5);
-        SceneManager.LoadScene("Career Mode");
     }
 }

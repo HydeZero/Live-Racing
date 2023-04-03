@@ -9,20 +9,25 @@ public class DayNightManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sun = gameObject.GetComponent<Light>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        float relativeAngle = ((transform.rotation.eulerAngles.x + 540) % 360) - 180;
         transform.Rotate(new Vector3(0.5f * Time.deltaTime, 0));
-        if (gameObject.transform.rotation.x > 360)
+        if (Mathf.Abs(relativeAngle) > 180)
         {
-            gameObject.transform.Rotate(new Vector3(-360,0,0));
-            sun.intensity = 1;
-        } else if (gameObject.transform.rotation.x > 180)
-        {
-            sun.intensity = 0;
+            if (Mathf.Abs(relativeAngle) > 360)
+            {
+                gameObject.transform.Rotate(new Vector3(-360, 0, 0));
+                sun.intensity = 1;
+            }
+            else
+            {
+                sun.intensity = 0;
+            }
         }
     }
 }
