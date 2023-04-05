@@ -5,7 +5,7 @@ using UnityEngine;
 public class DayNightManager : MonoBehaviour
 {
     public Light sun;
-    public bool isIntensityZero = false;
+    public float xDirection = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,19 +15,15 @@ public class DayNightManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float relativeAngle = ((transform.rotation.eulerAngles.x + 540) % 360) - 180;
         transform.Rotate(new Vector3(0.5f * Time.deltaTime, 0));
-        if (Mathf.Abs(relativeAngle) > 180)
+        xDirection = transform.rotation.x;
+        if (xDirection > 0.96f)
         {
-            if (Mathf.Abs(relativeAngle) > 360)
-            {
-                gameObject.transform.Rotate(new Vector3(-360, 0, 0));
-                sun.intensity = 1;
-            }
-            else
-            {
-                sun.intensity = 0;
-            }
+            sun.intensity = 0;
+        } else if (xDirection < 0.001f)
+        {
+            transform.Rotate(new Vector3(-359, 0, 0));
+            sun.intensity = 1;
         }
     }
 }
