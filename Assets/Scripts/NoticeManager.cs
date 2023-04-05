@@ -3,27 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadingManagerReturn : MonoBehaviour
+public class NoticeManager : MonoBehaviour
 {
-    public float rotateSpeed = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("WaitForLoad");
+        StartCoroutine(WaitThenLoad());
     }
 
     // Update is called once per frame
     void Update()
     {
-        rotateSpeed = 90;
-        transform.Rotate(0, rotateSpeed, 0);
+        
     }
 
-
-
-    IEnumerator WaitForLoad()
+    IEnumerator WaitThenLoad()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         SceneManager.LoadScene(1);
     }
 }
