@@ -6,6 +6,7 @@ public class DayNightManager : MonoBehaviour
 {
     public Light sun;
     public float xDirection = 0;
+    public bool isIntensityZero = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,13 +18,14 @@ public class DayNightManager : MonoBehaviour
     {
         transform.Rotate(new Vector3(0.5f * Time.deltaTime, 0));
         xDirection = transform.rotation.x;
-        if (xDirection > 0.96f)
+        if (Mathf.Abs(xDirection) > 0.96f && !isIntensityZero)
         {
             sun.intensity = 0;
-        } else if (xDirection < 0.001f)
+            isIntensityZero = true;
+        } else if (Mathf.Abs(xDirection) < 0.001f && isIntensityZero)
         {
-            transform.Rotate(new Vector3(-359, 0, 0));
             sun.intensity = 1;
+            isIntensityZero = false;
         }
     }
 }
