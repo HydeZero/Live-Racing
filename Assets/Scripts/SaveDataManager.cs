@@ -6,8 +6,10 @@ using TMPro;
 
 public class SaveDataManager : MonoBehaviour
 {
-    public string PlayerName;
-    public TMP_InputField inputField;
+    public string PlayerName = "sample";
+    public MissionManager MissionManagerScript;
+    //public TMP_InputField inputField;
+
 
 
     // Create a class for the save data and mark it as serializable
@@ -15,12 +17,20 @@ public class SaveDataManager : MonoBehaviour
     class SaveData
     {
         public string playerName;
+        public List<string> CurrentMissionNames;
+        public List<string> CompletedMissionNames;
+        public List<string> UpcomingMissionNames;
+        public List<string> MissionRequirements;
     }
 
     public void SaveGameData()
     {
-        PlayerName = inputField.text;
+        //PlayerName = inputField.text;
         SaveData data = new SaveData();
+        data.CurrentMissionNames = MissionManagerScript.CurrentMissionNames2;
+        data.CompletedMissionNames = MissionManagerScript.CompletedMissionNames2;
+        data.UpcomingMissionNames = MissionManagerScript.UpcomingMissionNames2;
+        data.MissionRequirements = MissionManagerScript.MissionRequirements2;
         data.playerName = PlayerName;
 
         string json = JsonUtility.ToJson(data);
@@ -37,10 +47,10 @@ public class SaveDataManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             PlayerName = data.playerName;
-            inputField.text = PlayerName;
+            //inputField.text = PlayerName;
         } else
         {
-            inputField.text = "No Savefile Found";
+            //inputField.text = "No Savefile Found";
         }
     }
 }
