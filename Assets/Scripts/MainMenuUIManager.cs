@@ -10,12 +10,12 @@ public class MainMenuUIManager : MonoBehaviour
 {
     public void BeginDistance()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void BeginCareer()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
     }
 
     public void ExitGame()

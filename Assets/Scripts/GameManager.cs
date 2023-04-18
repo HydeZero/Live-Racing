@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene(5);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(4);
     }
 
     
