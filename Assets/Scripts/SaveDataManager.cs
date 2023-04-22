@@ -8,9 +8,14 @@ public class SaveDataManager : MonoBehaviour
 {
     public string PlayerName = "sample";
     public MissionManager MissionManagerScript;
+    public GameObject AutoSaveIndicator;
     //public TMP_InputField inputField;
 
-
+    void Start()
+    {
+        LoadGameData();
+        StartCoroutine(AutoSave());
+    }
 
     // Create a class for the save data and mark it as serializable
     [System.Serializable]
@@ -47,10 +52,24 @@ public class SaveDataManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             PlayerName = data.playerName;
+            MissionManagerScript.CurrentMissionNames2 = data.CurrentMissionNames;
+            MissionManagerScript.CompletedMissionNames2 = data.CompletedMissionNames;
+            MissionManagerScript.MissionRequirements2 = data.MissionRequirements;
+            MissionManagerScript.UpcomingMissionNames2 = data.UpcomingMissionNames;
             //inputField.text = PlayerName;
         } else
         {
             //inputField.text = "No Savefile Found";
         }
+    }
+
+    IEnumerator AutoSave()
+    {
+        yield return new WaitForSeconds(60);
+        SaveGameData();
+        AutoSaveIndicator.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        AutoSaveIndicator.SetActive(false);
+        StartCoroutine(AutoSave());
     }
 }
