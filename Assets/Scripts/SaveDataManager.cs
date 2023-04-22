@@ -22,20 +22,12 @@ public class SaveDataManager : MonoBehaviour
     class SaveData
     {
         public string playerName;
-        public List<string> CurrentMissionNames;
-        public List<string> CompletedMissionNames;
-        public List<string> UpcomingMissionNames;
-        public List<string> MissionRequirements;
     }
 
     public void SaveGameData()
     {
         //PlayerName = inputField.text;
         SaveData data = new SaveData();
-        data.CurrentMissionNames = MissionManagerScript.CurrentMissionNames2;
-        data.CompletedMissionNames = MissionManagerScript.CompletedMissionNames2;
-        data.UpcomingMissionNames = MissionManagerScript.UpcomingMissionNames2;
-        data.MissionRequirements = MissionManagerScript.MissionRequirements2;
         data.playerName = PlayerName;
 
         string json = JsonUtility.ToJson(data);
@@ -52,10 +44,6 @@ public class SaveDataManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             PlayerName = data.playerName;
-            MissionManagerScript.CurrentMissionNames2 = data.CurrentMissionNames;
-            MissionManagerScript.CompletedMissionNames2 = data.CompletedMissionNames;
-            MissionManagerScript.MissionRequirements2 = data.MissionRequirements;
-            MissionManagerScript.UpcomingMissionNames2 = data.UpcomingMissionNames;
             //inputField.text = PlayerName;
         } else
         {
@@ -68,7 +56,7 @@ public class SaveDataManager : MonoBehaviour
         yield return new WaitForSeconds(60);
         SaveGameData();
         AutoSaveIndicator.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1);
         AutoSaveIndicator.SetActive(false);
         StartCoroutine(AutoSave());
     }

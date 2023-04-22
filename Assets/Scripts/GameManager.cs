@@ -28,5 +28,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(4);
     }
 
-    
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+        PauseMenu.SetActive(false);
+    }
 }
