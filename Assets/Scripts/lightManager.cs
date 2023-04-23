@@ -6,20 +6,31 @@ using TMPro;
 public class LightManager : MonoBehaviour
 {
     public bool IsLightOn = false;
+    public GameObject Lights;
+
     // Start is called before the first frame update
     private void Start()
     {
-        gameObject.SetActive(false);
+        Lights.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            TurnLights();
+        }
     }
     public void TurnLights()
     {
         if (!IsLightOn)
         {
-            gameObject.SetActive(true);
+            Lights.gameObject.SetActive(true);
             IsLightOn = true;
-        } else if (IsLightOn)
+        }
+        else if (IsLightOn)
         {
-            gameObject.SetActive(false);
+            Lights.gameObject.SetActive(false);
             IsLightOn = false;
         }
     }

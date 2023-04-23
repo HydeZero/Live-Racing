@@ -24,6 +24,6 @@ public class LoadingManagerReturn : MonoBehaviour
     IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }

@@ -7,8 +7,16 @@ using TMPro;
 public class SaveDataManager : MonoBehaviour
 {
     public string PlayerName;
-    public TMP_InputField inputField;
+    public GameObject AutoSaveIndicator;
+    public Progress progressScript;
 
+    //public TMP_InputField inputField;
+
+    void Start()
+    {
+        LoadGameData();
+        StartCoroutine(AutoSave());
+    }
 
     // Create a class for the save data and mark it as serializable
     [System.Serializable]
@@ -19,7 +27,7 @@ public class SaveDataManager : MonoBehaviour
 
     public void SaveGameData()
     {
-        PlayerName = inputField.text;
+        //PlayerName = inputField.text;
         SaveData data = new SaveData();
         data.playerName = PlayerName;
 
@@ -37,10 +45,20 @@ public class SaveDataManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             PlayerName = data.playerName;
-            inputField.text = PlayerName;
+            //inputField.text = PlayerName;
         } else
         {
-            inputField.text = "No Savefile Found";
+            //inputField.text = "No Savefile Found";
         }
+    }
+
+    IEnumerator AutoSave()
+    {
+        yield return new WaitForSeconds(60);
+        SaveGameData();
+        AutoSaveIndicator.SetActive(true);
+        yield return new WaitForSeconds(1);
+        AutoSaveIndicator.SetActive(false);
+        StartCoroutine(AutoSave());
     }
 }

@@ -16,7 +16,7 @@ public class DayNightManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(0.5f * Time.deltaTime, 0));
+        transform.Rotate(new Vector3(1.5f * Time.deltaTime, 0));
         xDirection = transform.rotation.x;
         if (Mathf.Abs(xDirection) > 0.96f && !isIntensityZero)
         {
