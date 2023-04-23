@@ -6,9 +6,10 @@ using TMPro;
 
 public class SaveDataManager : MonoBehaviour
 {
-    public string PlayerName = "sample";
-    public MissionManager MissionManagerScript;
+    public string PlayerName;
     public GameObject AutoSaveIndicator;
+    public Progress progressScript;
+
     //public TMP_InputField inputField;
 
     void Start()
