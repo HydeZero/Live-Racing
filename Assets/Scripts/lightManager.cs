@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LightManager : MonoBehaviour
+public class lightManager : MonoBehaviour
 {
     public bool IsLightOn = false;
     public GameObject Lights;

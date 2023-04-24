@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject PauseMenu;
+    public GameObject ProgressMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,5 +33,17 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         PauseMenu.SetActive(false);
+    }
+
+    public void LoadProgressMenu()
+    {
+        PauseMenu.SetActive(false);
+        ProgressMenu.SetActive(true);
+    }
+
+    public void ReturnToPause()
+    {
+        ProgressMenu.SetActive(false);
+        PauseMenu.SetActive(true);
     }
 }
