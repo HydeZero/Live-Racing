@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class lightManager : MonoBehaviour
+public class LightManager : MonoBehaviour
 {
     public bool IsLightOn = false;
     public GameObject Lights;
@@ -11,7 +11,7 @@ public class lightManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        Lights.gameObject.SetActive(false);
+        Lights.SetActive(false);
     }
 
     private void Update()
@@ -25,12 +25,12 @@ public class lightManager : MonoBehaviour
     {
         if (!IsLightOn)
         {
-            Lights.gameObject.SetActive(true);
+            Lights.SetActive(true);
             IsLightOn = true;
         }
         else if (IsLightOn)
         {
-            Lights.gameObject.SetActive(false);
+            Lights.SetActive(false);
             IsLightOn = false;
         }
     }

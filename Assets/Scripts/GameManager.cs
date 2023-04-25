@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(0);
     }
 
     public void ResumeGame()
