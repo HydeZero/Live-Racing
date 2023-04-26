@@ -16,7 +16,7 @@ public class Progress : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        percentCompleteCalculation = (float)(uniqueEventsFinishedCount / totalUniqueEvents) * 100;
+        percentCompleteCalculation = ((uniqueEventsFinishedCount * 100) / totalUniqueEvents);
     }
 
     // Update is called once per frame

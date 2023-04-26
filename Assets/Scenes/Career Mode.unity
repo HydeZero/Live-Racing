@@ -3889,8 +3889,8 @@ MonoBehaviour:
   uniqueEventsFinished: {fileID: 994869501}
   percentComplete: {fileID: 648149585}
   racesCompleteCount: 12
-  uniqueEventsFinishedCount: 3
-  totalUniqueEvents: 5
+  uniqueEventsFinishedCount: 132
+  totalUniqueEvents: 161
   percentCompleteCalculation: 0
 --- !u!1 &916778112
 GameObject:
