@@ -67,7 +67,7 @@ public class RaceManager : MonoBehaviour
 
     public void SetRaceName()
     {
-        SelectButtonText.text = "Press E to begin the" + RaceNameSelected + " race.";
+        SelectButtonText.text = "Press E to begin the " + RaceNameSelected + " race.";
         ActivateButtonReceiver();
     }
 }
