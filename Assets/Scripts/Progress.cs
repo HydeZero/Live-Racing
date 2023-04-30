@@ -9,6 +9,8 @@ public class Progress : MonoBehaviour
     public TextMeshProUGUI uniqueEventsFinished;
     public TextMeshProUGUI percentComplete;
 
+    public List<string> racesCompleteNames;
+
     public int racesCompleteCount;
     public int uniqueEventsFinishedCount;
     public int totalUniqueEvents;

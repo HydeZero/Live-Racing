@@ -8,7 +8,7 @@ public class LightManager : MonoBehaviour
     public bool IsLightOn = false;
     public GameObject Lights;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update.
     private void Start()
     {
         Lights.SetActive(false);

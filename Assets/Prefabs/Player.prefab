@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5243740868734055590}
   - component: {fileID: 5243740868734055584}
   - component: {fileID: 5243740868734055587}
-  - component: {fileID: -3989142111062203574}
+  - component: {fileID: 5065633829811337256}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -119,7 +119,7 @@ MonoBehaviour:
   horizontalInput: 0
   gameOver: 0
   powerupStatus: 0
---- !u!65 &-3989142111062203574
+--- !u!65 &5065633829811337256
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,8 +130,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.46, y: 1.5, z: 3.56}
-  m_Center: {x: 0, y: 0.6, z: 0}
+  m_Size: {x: 2.0135112, y: 1.1678672, z: 3.0933464}
+  m_Center: {x: -0.008109331, y: 0.60685945, z: -0.17370033}
 --- !u!1001 &1797277599196191638
 PrefabInstance:
   m_ObjectHideFlags: 0
