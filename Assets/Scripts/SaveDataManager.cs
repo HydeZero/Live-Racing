@@ -14,6 +14,7 @@ public class SaveDataManager : MonoBehaviour
 
     void Start()
     {
+        progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         LoadGameData();
         StartCoroutine(AutoSave());
     }
@@ -23,6 +24,8 @@ public class SaveDataManager : MonoBehaviour
     class SaveData
     {
         public string playerName;
+        public int RacesCompleted;
+        public int UniqueEventsCompleted;
     }
 
     public void SaveGameData()
@@ -30,6 +33,8 @@ public class SaveDataManager : MonoBehaviour
         //PlayerName = inputField.text;
         SaveData data = new SaveData();
         data.playerName = PlayerName;
+        data.RacesCompleted = progressScript.racesCompleteCount;
+        data.UniqueEventsCompleted = progressScript.uniqueEventsFinishedCount;
 
         string json = JsonUtility.ToJson(data);
 
@@ -45,9 +50,12 @@ public class SaveDataManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             PlayerName = data.playerName;
+            progressScript.racesCompleteCount = data.RacesCompleted;
+            progressScript.uniqueEventsFinishedCount = data.UniqueEventsCompleted;
             //inputField.text = PlayerName;
         } else
         {
+            Debug.Log("No Save File Found! It might have been moved or deleted.");
             //inputField.text = "No Savefile Found";
         }
     }

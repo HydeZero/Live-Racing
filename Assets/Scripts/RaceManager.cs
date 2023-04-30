@@ -15,10 +15,11 @@ public class RaceManager : MonoBehaviour
     public string RaceNameSelected;
     public TextMeshProUGUI SelectButtonText;
     public Quaternion rotationA;
+    public Progress progressScript;
     // Start is called before the first frame update
     void Start()
     {
-
+        progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
     }
 
     // Update is called once per frame
@@ -38,11 +39,17 @@ public class RaceManager : MonoBehaviour
             {
                 rotationA = Quaternion.Euler(0, 90, 0);
                 Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
+                ExitRaceTypeSelectMenu();
             }
         }
         else if (raceType == "timeTrial")
         {
-
+            if (RaceNameSelected == "Stadium")
+            {
+                rotationA = Quaternion.Euler(0, 90, 0);
+                Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
+                ExitRaceTypeSelectMenu();
+            }
         }
         else
         {
@@ -82,5 +89,23 @@ public class RaceManager : MonoBehaviour
     {
         SelectButtonText.text = "Press E to begin the " + RaceNameSelected + " race.";
         ActivateButtonReceiver();
+    }
+
+    public void OnTimeTrialFinish()
+    {
+        progressScript.racesCompleteCount++;
+        if (progressScript.racesCompleteNames.Contains($"{RaceNameSelected}timeTrial"))
+        {
+            progressScript.racesCompleteNames.Add($"{RaceNameSelected}timeTrial");
+        }
+    }
+
+    public void OnRaceFinished()
+    {
+        progressScript.racesCompleteCount++;
+        if (progressScript.racesCompleteNames.Contains($"{RaceNameSelected}regular"))
+        {
+            progressScript.racesCompleteNames.Add($"{RaceNameSelected}regular");
+        }
     }
 }
