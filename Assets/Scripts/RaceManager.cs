@@ -16,6 +16,7 @@ public class RaceManager : MonoBehaviour
     public TextMeshProUGUI SelectButtonText;
     public Quaternion rotationA;
     public Progress progressScript;
+    public int lap;
     // Start is called before the first frame update
     void Start()
     {
