@@ -6,11 +6,14 @@ public class CheckpointScript : MonoBehaviour
 {
     public int checkpointNum;
     public int TotalLaps;
+    public int TotalCheckpoints;
     public bool IsCheckpointUsed;
+    public RaceManager raceManagerScript;
+    public List<int> checkpointsUsed;
     // Start is called before the first frame update
     void Start()
     {
-        
+        raceManagerScript = GameObject.Find("GameManager").GetComponent<RaceManager>();
     }
 
     // Update is called once per frame
@@ -23,26 +26,50 @@ public class CheckpointScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (lap < TotalLaps)
+            if (raceManagerScript.lap < TotalLaps)
             {
-                if (checkpointNum == 3)
+                if (checkpointsUsed.Contains(checkpointNum - 1))
                 {
-                    if (!IsCheckpointUsed)
+                    if (checkpointNum == TotalCheckpoints)
                     {
-                        lap++;
-                        if (lap == TotalLaps)
+                        if (!IsCheckpointUsed)
                         {
-
+                            raceManagerScript.lap++;
+                            checkpointsUsed.Clear();
+                            checkpointsUsed.Add(0);
+                            if (raceManagerScript.lap == TotalLaps)
+                            {
+                                if (raceManagerScript.Type == "regular")
+                                {
+                                    raceManagerScript.OnRaceFinished();
+                                }
+                                else if (raceManagerScript.Type == "timeTrial")
+                                {
+                                    raceManagerScript.OnTimeTrialFinish();
+                                }
+                                else
+                                {
+                                    Debug.Log("Uh, something's wrong here. The race type does not exist! If you are a player, you can exit the application using Alt+F4 or Command+G.");
+                                }
+                            }
                         }
                     }
-                } else
-                {
-                    if (!IsCheckpointUsed)
+                    else
                     {
-
+                        if (!IsCheckpointUsed)
+                        {
+                            StartCoroutine(CheckpointUnuse());
+                            checkpointsUsed.Add(checkpointNum);
+                        }
                     }
                 }
             }
         }
+    }
+
+    IEnumerator CheckpointUnuse()
+    {
+        yield return new WaitForSeconds(5);
+        IsCheckpointUsed = false;
     }
 }

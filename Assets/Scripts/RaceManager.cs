@@ -17,6 +17,7 @@ public class RaceManager : MonoBehaviour
     public Quaternion rotationA;
     public Progress progressScript;
     public int lap;
+    public string Type;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,7 @@ public class RaceManager : MonoBehaviour
     {
         if (raceType == "regular")
         {
+            Type = "regular";
             if (RaceNameSelected == "Stadium")
             {
                 rotationA = Quaternion.Euler(0, 90, 0);
@@ -45,6 +47,7 @@ public class RaceManager : MonoBehaviour
         }
         else if (raceType == "timeTrial")
         {
+            Type = "timeTrial";
             if (RaceNameSelected == "Stadium")
             {
                 rotationA = Quaternion.Euler(0, 90, 0);
