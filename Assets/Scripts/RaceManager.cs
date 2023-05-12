@@ -18,6 +18,11 @@ public class RaceManager : MonoBehaviour
     public Progress progressScript;
     public int lap;
     public string Type;
+    public List<int> checkpointsUsed;
+    public int TotalLaps;
+    public bool isRaceActive;
+    public int TotalCheckpoints;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,9 +59,7 @@ public class RaceManager : MonoBehaviour
                 Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
                 ExitRaceTypeSelectMenu();
             }
-        }
-        else
-        {
+        } else {
 #if UNITY_EDITOR
             Debug.Log("Error R1: Race Type Doesn't Exist");
             EditorApplication.ExitPlaymode();
@@ -64,6 +67,9 @@ public class RaceManager : MonoBehaviour
             Application.Quit();
 #endif
         }
+        InitiateCheckpointList();
+        isRaceActive = true;
+        lap = 1;
     }
     public void BeginRaceButtonPressed()
     {
@@ -111,5 +117,32 @@ public class RaceManager : MonoBehaviour
         {
             progressScript.racesCompleteNames.Add($"{RaceNameSelected}regular");
         }
+    }
+
+    public void ClearAndCheck()
+    {
+        checkpointsUsed.Clear();
+        checkpointsUsed.Add(0);
+        if (lap == TotalLaps && isRaceActive)
+        {
+            if (Type == "regular")
+            {
+                OnRaceFinished();
+            }
+            else if (Type == "timeTrial")
+            {
+                OnTimeTrialFinish();
+            }
+            else
+            {
+                Debug.Log("Uh, something's wrong here. The race type does not exist! If you are a player, you can exit the application using Alt+F4 or Command+G.");
+            }
+        }
+    }
+
+    public void InitiateCheckpointList()
+    {
+        checkpointsUsed.Clear();
+        checkpointsUsed.Add(0);
     }
 }

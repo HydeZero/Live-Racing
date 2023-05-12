@@ -6,6 +6,8 @@ public class CheckForPlayer : MonoBehaviour
 {
     public RaceManager raceManagerScript;
     public string RaceName;
+    public int totalRaceLaps;
+    public int totalRaceCheckpoints;
 
     // Start is called before the first frame update
     void Start()
@@ -16,14 +18,14 @@ public class CheckForPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     // If the player touches it, send the name.
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SendName();
+            SendNameLapsAndCheckpoints();
         }
     }
     // If the player is not touching anymore, deactivate the button receiver.
@@ -35,9 +37,11 @@ public class CheckForPlayer : MonoBehaviour
         }
     }
     // Sends the race name to the RaceManager script
-    public void SendName()
+    public void SendNameLapsAndCheckpoints()
     {
         raceManagerScript.RaceNameSelected = RaceName;
         raceManagerScript.SetRaceName();
+        raceManagerScript.TotalLaps = totalRaceLaps;
+        raceManagerScript.TotalCheckpoints = totalRaceCheckpoints;
     }
 }
