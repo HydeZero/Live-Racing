@@ -7,11 +7,6 @@ public class DayNightManager : MonoBehaviour
     public Light sun;
     public float xDirection = 0;
     public bool isIntensityZero = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

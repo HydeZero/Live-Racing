@@ -9,12 +9,14 @@ public class SaveDataManager : MonoBehaviour
     public string PlayerName;
     public GameObject AutoSaveIndicator;
     public Progress progressScript;
+    public RaceManager raceManagerScript;
 
     //public TMP_InputField inputField;
 
     void Start()
     {
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
+        raceManagerScript = GameObject.Find("GameManager").GetComponent<RaceManager>();
         LoadGameData();
         StartCoroutine(AutoSave());
     }
@@ -26,6 +28,7 @@ public class SaveDataManager : MonoBehaviour
         public string playerName;
         public int RacesCompleted;
         public int UniqueEventsCompleted;
+        public List<string> UniqueRaces;
     }
 
     public void SaveGameData()
@@ -35,6 +38,7 @@ public class SaveDataManager : MonoBehaviour
         data.playerName = PlayerName;
         data.RacesCompleted = progressScript.racesCompleteCount;
         data.UniqueEventsCompleted = progressScript.uniqueEventsFinishedCount;
+        data.UniqueRaces = progressScript.racesCompleteNames;
 
         string json = JsonUtility.ToJson(data);
 
@@ -48,10 +52,10 @@ public class SaveDataManager : MonoBehaviour
         {
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
-
             PlayerName = data.playerName;
             progressScript.racesCompleteCount = data.RacesCompleted;
             progressScript.uniqueEventsFinishedCount = data.UniqueEventsCompleted;
+            progressScript.racesCompleteNames = data.UniqueRaces;
             //inputField.text = PlayerName;
         } else
         {
@@ -62,11 +66,17 @@ public class SaveDataManager : MonoBehaviour
 
     IEnumerator AutoSave()
     {
-        yield return new WaitForSeconds(60);
-        SaveGameData();
         AutoSaveIndicator.SetActive(true);
+        SaveGameData();
         yield return new WaitForSeconds(1);
         AutoSaveIndicator.SetActive(false);
+        yield return new WaitForSeconds(30);
+        StartCoroutine(AutoSave());
+    }
+
+    public void ReBeginAutoSave()
+    {
+        StopCoroutine(AutoSave());
         StartCoroutine(AutoSave());
     }
 }

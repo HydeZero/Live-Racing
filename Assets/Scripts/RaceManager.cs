@@ -22,11 +22,16 @@ public class RaceManager : MonoBehaviour
     public int TotalLaps;
     public bool isRaceActive;
     public int TotalCheckpoints;
+    public int Timer;
+    public GameManager gameManagerScript;
+    public Vector3 PlayerPosition;
+    public Quaternion PlayerRotation;
 
     // Start is called before the first frame update
     void Start()
     {
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
+        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -34,6 +39,8 @@ public class RaceManager : MonoBehaviour
     {
         if (IsButtonReceiverActive && Input.GetKeyDown(KeyCode.E))
         {
+            PlayerPosition = Player.transform.position;
+            PlayerRotation = Player.transform.rotation;
             BeginRaceButtonPressed();
         }
     }
@@ -42,7 +49,7 @@ public class RaceManager : MonoBehaviour
     {
         if (raceType == "regular")
         {
-            Type = "regular";
+            Type = "Race";
             if (RaceNameSelected == "Stadium")
             {
                 rotationA = Quaternion.Euler(0, 90, 0);
@@ -52,7 +59,7 @@ public class RaceManager : MonoBehaviour
         }
         else if (raceType == "timeTrial")
         {
-            Type = "timeTrial";
+            Type = "Time Trial";
             if (RaceNameSelected == "Stadium")
             {
                 rotationA = Quaternion.Euler(0, 90, 0);
@@ -70,6 +77,7 @@ public class RaceManager : MonoBehaviour
         InitiateCheckpointList();
         isRaceActive = true;
         lap = 1;
+        StartCoroutine(TimerTick());
     }
     public void BeginRaceButtonPressed()
     {
@@ -104,19 +112,25 @@ public class RaceManager : MonoBehaviour
     public void OnTimeTrialFinish()
     {
         progressScript.racesCompleteCount++;
-        if (progressScript.racesCompleteNames.Contains($"{RaceNameSelected}timeTrial"))
+        if (!progressScript.racesCompleteNames.Contains($"{RaceNameSelected}timeTrial"))
         {
             progressScript.racesCompleteNames.Add($"{RaceNameSelected}timeTrial");
+            progressScript.uniqueEventsFinishedCount++;
         }
+        isRaceActive = false;
+        ShowRaceResults();
     }
 
     public void OnRaceFinished()
     {
         progressScript.racesCompleteCount++;
-        if (progressScript.racesCompleteNames.Contains($"{RaceNameSelected}regular"))
+        if (!progressScript.racesCompleteNames.Contains($"{RaceNameSelected}regular"))
         {
             progressScript.racesCompleteNames.Add($"{RaceNameSelected}regular");
+            progressScript.uniqueEventsFinishedCount++;
         }
+        isRaceActive = false;
+        ShowRaceResults();
     }
 
     public void ClearAndCheck()
@@ -125,11 +139,11 @@ public class RaceManager : MonoBehaviour
         checkpointsUsed.Add(0);
         if (lap == TotalLaps && isRaceActive)
         {
-            if (Type == "regular")
+            if (Type == "Race")
             {
                 OnRaceFinished();
             }
-            else if (Type == "timeTrial")
+            else if (Type == "Time Trial")
             {
                 OnTimeTrialFinish();
             }
@@ -144,5 +158,28 @@ public class RaceManager : MonoBehaviour
     {
         checkpointsUsed.Clear();
         checkpointsUsed.Add(0);
+    }
+
+    IEnumerator TimerTick()
+    {
+        yield return new WaitForSeconds(1);
+        Timer++;
+        StartCoroutine(TimerTick());
+    }
+
+    public void ShowRaceResults()
+    {
+        StopCoroutine(TimerTick());
+        Time.timeScale = 0.001f;
+        gameManagerScript.ResultPanel.SetActive(true);
+        if (progressScript.uniqueEventsFinishedCount == progressScript.totalUniqueEvents)
+        {
+            gameManagerScript.resultsText.fontSize = 26;
+            gameManagerScript.resultsText.text = $"CONGRATULATIONS! The {RaceNameSelected} {Type} was the only race you needed to do to get 100% completion! You took {Timer} seconds \n Thanks for playing!";
+        }
+        else
+        {
+            gameManagerScript.resultsText.text = $"Congratulations! You finished the {RaceNameSelected} {Type} in: {Timer} seconds!";
+        }
     }
 }
