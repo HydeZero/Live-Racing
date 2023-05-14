@@ -491,7 +491,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1917191280}
         m_TargetAssemblyTypeName: MainMenuUIManager, Assembly-CSharp
-        m_MethodName: Restart
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -732,10 +732,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'This will be your final warning. This action is irreversible. The game
-    will crash afterwards.
+  m_text: 'This will be your final warning. This action is irreversible.
 
-    ARE YOU SURE?'
+    ARE
+    YOU SURE?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 570821af6fea44af1be9861c4a496950, type: 2}
   m_sharedMaterial: {fileID: 21855137469139786, guid: 570821af6fea44af1be9861c4a496950, type: 2}

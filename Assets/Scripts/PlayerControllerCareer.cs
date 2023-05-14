@@ -10,6 +10,7 @@ public class PlayerControllerCareer : MonoBehaviour
     public float turnSpeed;
     public Rigidbody playerRB;
     public Vector3 direction;
+    public bool onGround;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +23,30 @@ public class PlayerControllerCareer : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         accelerationInput = Input.GetAxis("Vertical");
+        if (onGround)
+        {
+            playerRB.AddRelativeForce(new Vector3(0, 0, speed * accelerationInput * Time.deltaTime), ForceMode.Acceleration);
+            transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
+        }
+    }
 
-        transform.Translate(new Vector3(0, 0, Time.deltaTime * speed * accelerationInput));
-        transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            onGround = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            onGround = false;
+        }
     }
 }

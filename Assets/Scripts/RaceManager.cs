@@ -26,6 +26,7 @@ public class RaceManager : MonoBehaviour
     public GameManager gameManagerScript;
     public Vector3 PlayerPosition;
     public Quaternion PlayerRotation;
+    public TextMeshProUGUI LapText;
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +78,7 @@ public class RaceManager : MonoBehaviour
         InitiateCheckpointList();
         isRaceActive = true;
         lap = 1;
+        LapText.text = $"Lap: {lap}/{TotalLaps}";
         StartCoroutine(TimerTick());
     }
     public void BeginRaceButtonPressed()
@@ -137,6 +139,7 @@ public class RaceManager : MonoBehaviour
     {
         checkpointsUsed.Clear();
         checkpointsUsed.Add(0);
+        
         if (lap == TotalLaps && isRaceActive)
         {
             if (Type == "Race")
