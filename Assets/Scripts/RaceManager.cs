@@ -78,6 +78,7 @@ public class RaceManager : MonoBehaviour
         InitiateCheckpointList();
         isRaceActive = true;
         lap = 1;
+        LapText.gameObject.SetActive(true);
         LapText.text = $"Lap: {lap}/{TotalLaps}";
         StartCoroutine(TimerTick());
     }
@@ -139,7 +140,6 @@ public class RaceManager : MonoBehaviour
     {
         checkpointsUsed.Clear();
         checkpointsUsed.Add(0);
-        
         if (lap == TotalLaps && isRaceActive)
         {
             if (Type == "Race")
@@ -154,7 +154,10 @@ public class RaceManager : MonoBehaviour
             {
                 Debug.Log("Uh, something's wrong here. The race type does not exist! If you are a player, you can exit the application using Alt+F4 or Command+G.");
             }
+            LapText.gameObject.SetActive(false);
         }
+        lap++;
+        LapText.text = "Lap: " + lap + "/" + TotalLaps;
     }
 
     public void InitiateCheckpointList()
@@ -184,5 +187,16 @@ public class RaceManager : MonoBehaviour
         {
             gameManagerScript.resultsText.text = $"Congratulations! You finished the {RaceNameSelected} {Type} in: {Timer} seconds!";
         }
+    }
+    
+    public void ExitRace()
+    {
+        if (isRaceActive)
+        {
+            isRaceActive = false;
+            LapText.gameObject.SetActive(false);
+            Player.transform.SetPositionAndRotation(PlayerPosition, PlayerRotation);
+        }
+        gameManagerScript.ResumeGame();
     }
 }

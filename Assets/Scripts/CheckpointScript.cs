@@ -26,7 +26,6 @@ public class CheckpointScript : MonoBehaviour
                         if (!IsCheckpointUsed)
                         {
                             raceManagerScript.ClearAndCheck();
-                            raceManagerScript.lap++;
                         }
                     }
                     else
