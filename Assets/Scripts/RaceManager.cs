@@ -27,6 +27,7 @@ public class RaceManager : MonoBehaviour
     public Vector3 PlayerPosition;
     public Quaternion PlayerRotation;
     public TextMeshProUGUI LapText;
+    public GameObject DowntownRaceWalls;
 
     // Start is called before the first frame update
     void Start()
@@ -51,23 +52,15 @@ public class RaceManager : MonoBehaviour
         if (raceType == "regular")
         {
             Type = "Race";
-            if (RaceNameSelected == "Stadium")
-            {
-                rotationA = Quaternion.Euler(0, 90, 0);
-                Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
-                ExitRaceTypeSelectMenu();
-            }
+            CheckRaceName(RaceNameSelected);
         }
         else if (raceType == "timeTrial")
         {
             Type = "Time Trial";
-            if (RaceNameSelected == "Stadium")
-            {
-                rotationA = Quaternion.Euler(0, 90, 0);
-                Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
-                ExitRaceTypeSelectMenu();
-            }
-        } else {
+            CheckRaceName(RaceNameSelected);
+        }
+        else
+        {
 #if UNITY_EDITOR
             Debug.Log("Error R1: Race Type Doesn't Exist");
             EditorApplication.ExitPlaymode();
@@ -81,6 +74,23 @@ public class RaceManager : MonoBehaviour
         LapText.gameObject.SetActive(true);
         LapText.text = $"Lap: {lap}/{TotalLaps}";
         StartCoroutine(TimerTick());
+    }
+
+    public void CheckRaceName(string raceName)
+    {
+        if (raceName == "Stadium")
+        {
+            rotationA = Quaternion.Euler(0, 90, 0);
+            Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
+            ExitRaceTypeSelectMenu();
+        }
+        if (raceName == "Downtown Race")
+        {
+            rotationA = Quaternion.Euler(0, 0, 0);
+            Player.transform.SetPositionAndRotation(new Vector3(-8.4f, 0.16f, -33.9f), rotationA);
+            ExitRaceTypeSelectMenu();
+            DowntownRaceWalls.SetActive(true);
+        }
     }
     public void BeginRaceButtonPressed()
     {
@@ -176,6 +186,10 @@ public class RaceManager : MonoBehaviour
     public void ShowRaceResults()
     {
         StopCoroutine(TimerTick());
+        if (RaceNameSelected == "Downtown Race")
+        {
+
+        }
         Time.timeScale = 0.001f;
         gameManagerScript.ResultPanel.SetActive(true);
         if (progressScript.uniqueEventsFinishedCount == progressScript.totalUniqueEvents)
