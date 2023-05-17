@@ -58,5 +58,10 @@ public class GameManager : MonoBehaviour
         ResultPanel.SetActive(false);
         Time.timeScale = 1;
         raceManagerScript.Player.transform.SetPositionAndRotation(raceManagerScript.PlayerPosition, raceManagerScript.PlayerRotation);
+        if (raceManagerScript.RaceNameSelected == "Downtown Race")
+        {
+            raceManagerScript.DowntownRaceWalls.SetActive(false);
+            raceManagerScript.DowntownPlayerDetector.SetActive(true);
+        }
     }
 }

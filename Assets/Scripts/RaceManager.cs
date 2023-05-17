@@ -28,6 +28,7 @@ public class RaceManager : MonoBehaviour
     public Quaternion PlayerRotation;
     public TextMeshProUGUI LapText;
     public GameObject DowntownRaceWalls;
+    public GameObject DowntownPlayerDetector;
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +91,7 @@ public class RaceManager : MonoBehaviour
             Player.transform.SetPositionAndRotation(new Vector3(-8.4f, 0.16f, -33.9f), rotationA);
             ExitRaceTypeSelectMenu();
             DowntownRaceWalls.SetActive(true);
+            DowntownPlayerDetector.SetActive(false);
         }
     }
     public void BeginRaceButtonPressed()
@@ -186,10 +188,6 @@ public class RaceManager : MonoBehaviour
     public void ShowRaceResults()
     {
         StopCoroutine(TimerTick());
-        if (RaceNameSelected == "Downtown Race")
-        {
-
-        }
         Time.timeScale = 0.001f;
         gameManagerScript.ResultPanel.SetActive(true);
         if (progressScript.uniqueEventsFinishedCount == progressScript.totalUniqueEvents)
