@@ -29,12 +29,14 @@ public class RaceManager : MonoBehaviour
     public TextMeshProUGUI LapText;
     public GameObject DowntownRaceWalls;
     public GameObject DowntownPlayerDetector;
+    public PlayerControllerCareer playerControllerCareerScript;
 
     // Start is called before the first frame update
     void Start()
     {
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerControllerCareerScript = GameObject.Find("Player").GetComponent<PlayerControllerCareer>();
     }
 
     // Update is called once per frame
@@ -200,6 +202,8 @@ public class RaceManager : MonoBehaviour
         {
             gameManagerScript.resultsText.text = $"Congratulations! You finished the {RaceNameSelected} {Type} in: {Timer} seconds!";
         }
+        Timer = 0;
+        playerControllerCareerScript.playerRb
     }
     
     public void ExitRace()

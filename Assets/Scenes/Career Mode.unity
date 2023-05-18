@@ -8299,7 +8299,7 @@ MonoBehaviour:
   racesCompleteNames: []
   racesCompleteCount: 0
   uniqueEventsFinishedCount: 0
-  totalUniqueEvents: 2
+  totalUniqueEvents: 4
   percentCompleteCalculation: 0
 --- !u!114 &894986986
 MonoBehaviour:
