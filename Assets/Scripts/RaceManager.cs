@@ -203,7 +203,7 @@ public class RaceManager : MonoBehaviour
             gameManagerScript.resultsText.text = $"Congratulations! You finished the {RaceNameSelected} {Type} in: {Timer} seconds!";
         }
         Timer = 0;
-        playerControllerCareerScript.playerRb
+        playerControllerCareerScript.playerRB.velocity = new Vector3(0, 0, 0);
     }
     
     public void ExitRace()
