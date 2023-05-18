@@ -70,6 +70,7 @@ public class RaceManager : MonoBehaviour
 #endif
         }
         InitiateCheckpointList();
+        SelectButtonText.gameObject.SetActive(false);
         isRaceActive = true;
         lap = 1;
         LapText.gameObject.SetActive(true);

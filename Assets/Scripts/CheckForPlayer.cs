@@ -23,7 +23,7 @@ public class CheckForPlayer : MonoBehaviour
     // If the player touches it, send the name.
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !raceManagerScript.isRaceActive)
         {
             SendNameLapsAndCheckpoints();
         }
@@ -31,7 +31,7 @@ public class CheckForPlayer : MonoBehaviour
     // If the player is not touching anymore, deactivate the button receiver.
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !raceManagerScript.isRaceActive)
         {
             raceManagerScript.DeactivateButtonReceiver();
         }
