@@ -30,6 +30,7 @@ public class RaceManager : MonoBehaviour
     public GameObject DowntownRaceWalls;
     public GameObject DowntownPlayerDetector;
     public PlayerControllerCareer playerControllerCareerScript;
+    public OpponentAI opponentAIScript;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +38,7 @@ public class RaceManager : MonoBehaviour
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerControllerCareerScript = GameObject.Find("Player").GetComponent<PlayerControllerCareer>();
+        opponentAIScript = GameObject.Find("AIScriptHolder").GetComponent<OpponentAI>();
     }
 
     // Update is called once per frame
@@ -215,5 +217,10 @@ public class RaceManager : MonoBehaviour
             Player.transform.SetPositionAndRotation(PlayerPosition, PlayerRotation);
         }
         gameManagerScript.ResumeGame();
+    }
+
+    public void SendRaceInfoToAI()
+    {
+        opponentAIScript
     }
 }
