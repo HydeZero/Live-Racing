@@ -254,7 +254,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1113227359083246385}
   - component: {fileID: 8534037671589479907}
-  - component: {fileID: 5151486864007516360}
   m_Layer: 0
   m_Name: Light Manager
   m_TagString: Untagged
@@ -290,19 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLightOn: 0
---- !u!114 &5151486864007516360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5937111213434794302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9b4a7d0409b11478ffe87363418c36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsLightOn: 0
+  Lights: {fileID: 8660084392082837477}
 --- !u!1 &8660084392082837477
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,11 +496,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5243740868734055584, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
       propertyPath: m_Drag
-      value: 0.2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5243740868734055584, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
       propertyPath: m_Mass
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243740868734055584, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
+      propertyPath: m_AngularDrag
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5243740868734055584, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
       propertyPath: m_Constraints
@@ -598,7 +589,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalInput: 0
   accelerationInput: 0
-  speed: 50
+  speed: 5000
   turnSpeed: 180
   playerRB: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
+  onGround: 1

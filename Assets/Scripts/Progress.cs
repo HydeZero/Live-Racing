@@ -27,5 +27,6 @@ public class Progress : MonoBehaviour
         percentComplete.text = "Game Completed: " + percentCompleteCalculation + "%";
         racesComplete.text = "Races Finished: " + racesCompleteCount;
         uniqueEventsFinished.text = "Unique Events Finished: " + uniqueEventsFinishedCount;
+        percentCompleteCalculation = ((uniqueEventsFinishedCount * 100) / totalUniqueEvents);
     }
 }

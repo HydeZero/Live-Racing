@@ -22,11 +22,23 @@ public class RaceManager : MonoBehaviour
     public int TotalLaps;
     public bool isRaceActive;
     public int TotalCheckpoints;
+    public int Timer;
+    public GameManager gameManagerScript;
+    public Vector3 PlayerPosition;
+    public Quaternion PlayerRotation;
+    public TextMeshProUGUI LapText;
+    public GameObject DowntownRaceWalls;
+    public GameObject DowntownPlayerDetector;
+    public PlayerControllerCareer playerControllerCareerScript;
+    public OpponentAI opponentAIScript;
 
     // Start is called before the first frame update
     void Start()
     {
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
+        gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerControllerCareerScript = GameObject.Find("Player").GetComponent<PlayerControllerCareer>();
+        opponentAIScript = GameObject.Find("AIScriptHolder").GetComponent<OpponentAI>();
     }
 
     // Update is called once per frame
@@ -34,6 +46,8 @@ public class RaceManager : MonoBehaviour
     {
         if (IsButtonReceiverActive && Input.GetKeyDown(KeyCode.E))
         {
+            PlayerPosition = Player.transform.position;
+            PlayerRotation = Player.transform.rotation;
             BeginRaceButtonPressed();
         }
     }
@@ -42,24 +56,16 @@ public class RaceManager : MonoBehaviour
     {
         if (raceType == "regular")
         {
-            Type = "regular";
-            if (RaceNameSelected == "Stadium")
-            {
-                rotationA = Quaternion.Euler(0, 90, 0);
-                Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
-                ExitRaceTypeSelectMenu();
-            }
+            Type = "Race";
+            CheckRaceName(RaceNameSelected);
         }
         else if (raceType == "timeTrial")
         {
-            Type = "timeTrial";
-            if (RaceNameSelected == "Stadium")
-            {
-                rotationA = Quaternion.Euler(0, 90, 0);
-                Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
-                ExitRaceTypeSelectMenu();
-            }
-        } else {
+            Type = "Time Trial";
+            CheckRaceName(RaceNameSelected);
+        }
+        else
+        {
 #if UNITY_EDITOR
             Debug.Log("Error R1: Race Type Doesn't Exist");
             EditorApplication.ExitPlaymode();
@@ -68,8 +74,30 @@ public class RaceManager : MonoBehaviour
 #endif
         }
         InitiateCheckpointList();
+        SelectButtonText.gameObject.SetActive(false);
         isRaceActive = true;
         lap = 1;
+        LapText.gameObject.SetActive(true);
+        LapText.text = $"Lap: {lap}/{TotalLaps}";
+        StartCoroutine(TimerTick());
+    }
+
+    public void CheckRaceName(string raceName)
+    {
+        if (raceName == "Stadium")
+        {
+            rotationA = Quaternion.Euler(0, 90, 0);
+            Player.transform.SetPositionAndRotation(new Vector3(75, 0.5f, -360), rotationA);
+            ExitRaceTypeSelectMenu();
+        }
+        if (raceName == "Downtown Race")
+        {
+            rotationA = Quaternion.Euler(0, 0, 0);
+            Player.transform.SetPositionAndRotation(new Vector3(-8.4f, 0.16f, -33.9f), rotationA);
+            ExitRaceTypeSelectMenu();
+            DowntownRaceWalls.SetActive(true);
+            DowntownPlayerDetector.SetActive(false);
+        }
     }
     public void BeginRaceButtonPressed()
     {
@@ -104,19 +132,25 @@ public class RaceManager : MonoBehaviour
     public void OnTimeTrialFinish()
     {
         progressScript.racesCompleteCount++;
-        if (progressScript.racesCompleteNames.Contains($"{RaceNameSelected}timeTrial"))
+        if (!progressScript.racesCompleteNames.Contains($"{RaceNameSelected}timeTrial"))
         {
             progressScript.racesCompleteNames.Add($"{RaceNameSelected}timeTrial");
+            progressScript.uniqueEventsFinishedCount++;
         }
+        isRaceActive = false;
+        ShowRaceResults();
     }
 
     public void OnRaceFinished()
     {
         progressScript.racesCompleteCount++;
-        if (progressScript.racesCompleteNames.Contains($"{RaceNameSelected}regular"))
+        if (!progressScript.racesCompleteNames.Contains($"{RaceNameSelected}regular"))
         {
             progressScript.racesCompleteNames.Add($"{RaceNameSelected}regular");
+            progressScript.uniqueEventsFinishedCount++;
         }
+        isRaceActive = false;
+        ShowRaceResults();
     }
 
     public void ClearAndCheck()
@@ -125,11 +159,11 @@ public class RaceManager : MonoBehaviour
         checkpointsUsed.Add(0);
         if (lap == TotalLaps && isRaceActive)
         {
-            if (Type == "regular")
+            if (Type == "Race")
             {
                 OnRaceFinished();
             }
-            else if (Type == "timeTrial")
+            else if (Type == "Time Trial")
             {
                 OnTimeTrialFinish();
             }
@@ -137,12 +171,56 @@ public class RaceManager : MonoBehaviour
             {
                 Debug.Log("Uh, something's wrong here. The race type does not exist! If you are a player, you can exit the application using Alt+F4 or Command+G.");
             }
+            LapText.gameObject.SetActive(false);
         }
+        lap++;
+        LapText.text = "Lap: " + lap + "/" + TotalLaps;
     }
 
     public void InitiateCheckpointList()
     {
         checkpointsUsed.Clear();
         checkpointsUsed.Add(0);
+    }
+
+    IEnumerator TimerTick()
+    {
+        yield return new WaitForSeconds(1);
+        Timer++;
+        StartCoroutine(TimerTick());
+    }
+
+    public void ShowRaceResults()
+    {
+        StopCoroutine(TimerTick());
+        Time.timeScale = 0.001f;
+        gameManagerScript.ResultPanel.SetActive(true);
+        if (progressScript.uniqueEventsFinishedCount == progressScript.totalUniqueEvents)
+        {
+            gameManagerScript.resultsText.fontSize = 26;
+            gameManagerScript.resultsText.text = $"CONGRATULATIONS! The {RaceNameSelected} {Type} was the only race you needed to do to get 100% completion! You took {Timer} seconds \n Thanks for playing!";
+        }
+        else
+        {
+            gameManagerScript.resultsText.text = $"Congratulations! You finished the {RaceNameSelected} {Type} in: {Timer} seconds!";
+        }
+        Timer = 0;
+        playerControllerCareerScript.playerRB.velocity = new Vector3(0, 0, 0);
+    }
+    
+    public void ExitRace()
+    {
+        if (isRaceActive)
+        {
+            isRaceActive = false;
+            LapText.gameObject.SetActive(false);
+            Player.transform.SetPositionAndRotation(PlayerPosition, PlayerRotation);
+        }
+        gameManagerScript.ResumeGame();
+    }
+
+    public void SendRaceInfoToAI()
+    {
+        opponentAIScript.RaceName = RaceNameSelected;
     }
 }

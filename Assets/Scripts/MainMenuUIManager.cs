@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 public class MainMenuUIManager : MonoBehaviour
 {
+    public GameObject DeletePopup1;
+    public GameObject DeletePopup2;
+
     public void BeginDistance()
     {
         SceneManager.LoadScene(1);
@@ -25,5 +29,32 @@ public class MainMenuUIManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void ShowDeletePopup1()
+    {
+        DeletePopup1.SetActive(true);
+    }
+
+    public void ShowDeletePopup2()
+    {
+        DeletePopup1.SetActive(false);
+        DeletePopup2.SetActive(true);
+    }
+
+    public void ExitDeletePopups()
+    {
+        DeletePopup1.SetActive(false);
+        DeletePopup2.SetActive(false);
+    }
+
+    public void DeleteSaveData()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            File.WriteAllText(path, "");
+        }
+        ExitDeletePopups();
     }
 }

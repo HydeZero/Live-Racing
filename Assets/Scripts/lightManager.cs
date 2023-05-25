@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LightManager : MonoBehaviour
+#pragma warning disable IDE1006 // Naming Styles
+public class lightManager : MonoBehaviour
+#pragma warning restore IDE1006 // Naming Styles
 {
     public bool IsLightOn = false;
     public GameObject Lights;

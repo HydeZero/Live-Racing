@@ -13,17 +13,11 @@ public class CheckpointScript : MonoBehaviour
         raceManagerScript = GameObject.Find("GameManager").GetComponent<RaceManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (raceManagerScript.lap < raceManagerScript.TotalLaps)
+            if (raceManagerScript.lap < raceManagerScript.TotalLaps + 1)
             {
                 if (raceManagerScript.checkpointsUsed.Contains(checkpointNum - 1))
                 {
@@ -31,7 +25,7 @@ public class CheckpointScript : MonoBehaviour
                     {
                         if (!IsCheckpointUsed)
                         {
-                            raceManagerScript.lap++;
+                            raceManagerScript.ClearAndCheck();
                         }
                     }
                     else
