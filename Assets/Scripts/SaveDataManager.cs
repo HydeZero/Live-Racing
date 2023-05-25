@@ -34,11 +34,13 @@ public class SaveDataManager : MonoBehaviour
     public void SaveGameData()
     {
         //PlayerName = inputField.text;
-        SaveData data = new SaveData();
-        data.playerName = PlayerName;
-        data.RacesCompleted = progressScript.racesCompleteCount;
-        data.UniqueEventsCompleted = progressScript.uniqueEventsFinishedCount;
-        data.UniqueRaces = progressScript.racesCompleteNames;
+        SaveData data = new()
+        {
+            playerName = PlayerName,
+            RacesCompleted = progressScript.racesCompleteCount,
+            UniqueEventsCompleted = progressScript.uniqueEventsFinishedCount,
+            UniqueRaces = progressScript.racesCompleteNames
+        };
 
         string json = JsonUtility.ToJson(data);
 

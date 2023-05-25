@@ -14,12 +14,6 @@ public class CheckForPlayer : MonoBehaviour
     {
         raceManagerScript = GameObject.Find("GameManager").GetComponent<RaceManager>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     // If the player touches it, send the name.
     private void OnTriggerEnter(Collider other)
     {

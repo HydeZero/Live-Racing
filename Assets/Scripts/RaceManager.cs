@@ -221,6 +221,6 @@ public class RaceManager : MonoBehaviour
 
     public void SendRaceInfoToAI()
     {
-        opponentAIScript
+        opponentAIScript.RaceName = RaceNameSelected;
     }
 }
