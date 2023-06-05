@@ -38,7 +38,7 @@ public class RaceManager : MonoBehaviour
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerControllerCareerScript = GameObject.Find("Player").GetComponent<PlayerControllerCareer>();
-        opponentAIScript = GameObject.Find("AIScriptHolder").GetComponent<OpponentAI>();
+        opponentAIScript = GameObject.Find("AI").GetComponent<OpponentAI>();
     }
 
     // Update is called once per frame
@@ -69,8 +69,9 @@ public class RaceManager : MonoBehaviour
 #if UNITY_EDITOR
             Debug.Log("Error R1: Race Type Doesn't Exist");
             EditorApplication.ExitPlaymode();
+            
 #else
-            Application.Quit();
+            Application.ForceCrash
 #endif
         }
         InitiateCheckpointList();
