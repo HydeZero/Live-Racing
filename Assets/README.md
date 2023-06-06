@@ -20,4 +20,4 @@ This is divided up into 6 sections. They go, in order, as:
 Each section includes a detailed explanation about how to do what the title says. Now, let's begin.
 
 ## Adding new vehicles
-You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING WHEELS.
+You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING WHEELS. IT DOESN'T WORK LIKE THAT. It works by applying a force in the general direction of where the car is facing. After that, you need to import the vehicle into Unity. Make a prefab with this title: "Player[CAR NAME HERE]", replacing [CAR NAME HERE] with the car's name. Then, you
