@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DealershipCarManager : MonoBehaviour
 {
@@ -11,6 +12,15 @@ public class DealershipCarManager : MonoBehaviour
     public GameObject dealershipGUI;
     public GameObject player;
     public GameObject[] cars;
+    public string[] carNames;
+    public string[] carDescriptions;
+    public int[] carPrices;
+    public TextMeshProUGUI carName;
+    public TextMeshProUGUI carDescription;
+    public TextMeshProUGUI carPrice;
+    public List<string> carsPurchased;
+    public int currentCash;
+    public int currentCarIndexDealership;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,5 +62,27 @@ public class DealershipCarManager : MonoBehaviour
         Destroy(player);
         Instantiate(cars[index]);
         player = GameObject.Find($"Player{CarName}");
+    }
+
+    public void LoadCarInfo(int index)
+    {
+        carDescription.text = carDescriptions[index];
+        carName.text = carNames[index];
+        
+        if (carsPurchased.Contains(carNames[index]))
+        {
+            carPrice.text = "PURCHASED";
+        } else
+        {
+            carPrice.text = $"Cost: {carPrices[index]}";
+        }
+    }
+
+    public void PurchaseCars()
+    {
+        carsPurchased.Add(carNames[currentCarIndexDealership]);
+        currentCash -= carPrices[currentCarIndexDealership];
+        SwitchCar(currentCarIndexDealership, carNames[currentCarIndexDealership]);
+        Debug.Log($"Purchased {carNames[currentCarIndexDealership]} at {carPrices[currentCarIndexDealership]}");
     }
 }

@@ -20,4 +20,12 @@ This is divided up into 6 sections. They go, in order, as:
 Each section includes a detailed explanation about how to do what the title says. Now, let's begin.
 
 ## Adding new vehicles
-You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING WHEELS. IT DOESN'T WORK LIKE THAT. It works by applying a force in the general direction of where the car is facing. After that, you need to import the vehicle into Unity. Make a prefab with this title: "Player[CAR NAME HERE]", replacing [CAR NAME HERE] with the car's name. Then, you
+You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING WHEELS. THE MODEL DOES NOT WORK LIKE THAT. Next, you can take a screenshot of the car and remove the background. Then, you will have to import it into the game. Here is how:
+1. Import the .fbx file into the Models folder
+2. Make a prefab with this title: "Player[CAR NAME HERE]", replacing [CAR NAME HERE] with the car's name.
+3. Import the file into the prefab
+4. Drag the prefab next to the sample car
+5. Scale the model as needed so that it is similar in size to the original car.
+6. Add the box collider and rigidbody components.
+7. Add the PlayerControllerCareer script.
+Now, you need to configure the car. Set the rigidbody's weight.
