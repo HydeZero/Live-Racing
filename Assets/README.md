@@ -29,3 +29,4 @@ You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING 
 6. Add the box collider and rigidbody components.
 7. Add the PlayerControllerCareer script.
 Now, you need to configure the car. Set the rigidbody's weight.
+
