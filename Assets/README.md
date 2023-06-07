@@ -26,3 +26,6 @@ You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING 
 3. Import the file into the prefab
 4. Drag the prefab next to the sample car
 5. Scale the model as needed so that it is similar in size to the original car.
+6. Add the box collider and rigidbody components.
+7. Add the PlayerControllerCareer script.
+Now, you need to configure the car. Set the rigidbody's weight.
