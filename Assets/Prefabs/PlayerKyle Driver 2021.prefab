@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 415118394641709252}
+  - component: {fileID: -8819495636896340998}
+  - component: {fileID: -2085691547886291420}
   m_Layer: 0
-  m_Name: Kyle
-  m_TagString: Untagged
+  m_Name: PlayerKyle Driver 2021
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,6 +37,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &-8819495636896340998
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415118394641709255}
+  serializedVersion: 2
+  m_Mass: 1000
+  m_Drag: 1.5
+  m_AngularDrag: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-2085691547886291420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415118394641709255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d2d20435140c2844b154f8b9f49ec3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalInput: 0
+  accelerationInput: 0
+  speed: 6000
+  turnSpeed: 180
+  playerRB: {fileID: 0}
+  direction: {x: 0, y: 0, z: 0}
+  onGround: 0
+  carSpeed: {x: 0, y: 0, z: 0}
+  carspeedcalcA: {x: 0, y: 0, z: 0}
+  carspeedcalcB: {x: 0, y: 0, z: 0}
+  switching: 0
 --- !u!1 &415118394716015305
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,13 +31,15 @@ public class RaceManager : MonoBehaviour
     public GameObject DowntownPlayerDetector;
     public PlayerControllerCareer playerControllerCareerScript;
     public OpponentAI opponentAIScript;
+    public DealershipCarManager dealershipCarManagerScript;
 
     // Start is called before the first frame update
     void Start()
     {
+        dealershipCarManagerScript = GameObject.Find("CheckForPlayerDealership").GetComponent<DealershipCarManager>();
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-        playerControllerCareerScript = GameObject.Find("Player").GetComponent<PlayerControllerCareer>();
+        playerControllerCareerScript = GameObject.Find("PlayerLukeman Transporter 2019").GetComponent<PlayerControllerCareer>();
         opponentAIScript = GameObject.Find("AISteven").GetComponent<OpponentAI>();
     }
 
@@ -46,6 +48,7 @@ public class RaceManager : MonoBehaviour
     {
         if (IsButtonReceiverActive && Input.GetKeyDown(KeyCode.E))
         {
+            Player = GameObject.Find($"Player{dealershipCarManagerScript.carName.text}");
             PlayerPosition = Player.transform.position;
             PlayerRotation = Player.transform.rotation;
             BeginRaceButtonPressed();
@@ -69,9 +72,8 @@ public class RaceManager : MonoBehaviour
 #if UNITY_EDITOR
             Debug.Log("Error R1: Race Type Doesn't Exist");
             EditorApplication.ExitPlaymode();
-            
 #else
-            Application.ForceCrash
+            Application.Quit();
 #endif
         }
         InitiateCheckpointList();
@@ -139,6 +141,7 @@ public class RaceManager : MonoBehaviour
             progressScript.uniqueEventsFinishedCount++;
         }
         isRaceActive = false;
+        dealershipCarManagerScript.currentCash += 10000;
         ShowRaceResults();
     }
 
@@ -151,6 +154,7 @@ public class RaceManager : MonoBehaviour
             progressScript.uniqueEventsFinishedCount++;
         }
         isRaceActive = false;
+        dealershipCarManagerScript.currentCash += 20000;
         ShowRaceResults();
     }
 

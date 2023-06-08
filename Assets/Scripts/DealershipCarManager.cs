@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DealershipCarManager : MonoBehaviour
@@ -20,11 +21,19 @@ public class DealershipCarManager : MonoBehaviour
     public TextMeshProUGUI carPrice;
     public List<string> carsPurchased;
     public int currentCash;
+    public TextMeshProUGUI currentCashObject;
     public int currentCarIndexDealership;
+    public TextMeshProUGUI getInButton;
+    public TextMeshProUGUI getInButtonTransport;
+    public TextMeshProUGUI getInButtonDriver2021;
+    public int randomThing;
+    public int carnameindex;
+    public GameObject GetInButtonTransportbutton;
+    public GameObject GetInButtonDriver2021button;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player");
+        player = GameObject.Find("PlayerLukeman Transporter 2019");
     }
 
     void Update()
@@ -32,7 +41,14 @@ public class DealershipCarManager : MonoBehaviour
         if (isRecieverActive && Input.GetKeyDown(KeyCode.E))
         {
             dealershipGUI.SetActive(true);
+            if (player == null)
+            {
+                player = GameObject.Find($"Player{carName.text}(Clone)");
+            }
+            playerPosition = player.transform.position;
+            playerRotation = player.transform.rotation;
         }
+        currentCashObject.text = $"Cash: ${currentCash}";
     }
     // If the player touches it, open a popup that asks the player to press E to enter the dealership.
     private void OnTriggerEnter(Collider other)
@@ -57,15 +73,69 @@ public class DealershipCarManager : MonoBehaviour
         
     }
 
-    public void SwitchCar(int index, string CarName)
+    public void SwitchCar(string CarName)
     {
-        Destroy(player);
-        Instantiate(cars[index]);
-        player = GameObject.Find($"Player{CarName}");
+        if (carsPurchased.Contains(CarName))
+        {
+            carnameindex = carsPurchased.IndexOf(CarName);
+            Destroy(player);
+            Instantiate(cars[carnameindex], playerPosition, playerRotation);
+            player = GameObject.Find($"Player{CarName}(Clone)");
+            ExitDealershipGUI();
+        }
+        else
+        {
+            randomThing = Random.Range(0,7);
+            if (randomThing == 0)
+            {
+                getInButton.text = "nope.mp3";
+            }
+            else if (randomThing == 1)
+            {
+                getInButton.text = "Don't steal!";
+            }
+            else if (randomThing == 2)
+            {
+                getInButton.text = "Operation Get-In-Car-Without-Buying-It failed.";
+            }
+            else if (randomThing == 3)
+            {
+                getInButton.text = "Buy this car first.";
+            }
+            else if (randomThing == 4)
+            {
+                getInButton.text = "getInCar.exe has stopped working.";
+            }
+            else if (randomThing == 5)
+            {
+                getInButton.text = "Access Denied.";
+            }
+            else if (randomThing == 6)
+            {
+                getInButton.text = "Error 404: car not found";
+            }
+            else
+            {
+                getInButton.text = "Error generating error message. Ironic, huh?";
+            }
+        }
     }
 
     public void LoadCarInfo(int index)
     {
+        if (carNames[index] == "Kyle Driver 2021")
+        {
+            getInButton = getInButtonDriver2021;
+            GetInButtonTransportbutton.SetActive(false);
+            GetInButtonDriver2021button.SetActive(true);
+        }
+        else if (carNames[index] == "Lukeman Transporter 2019")
+        {
+            getInButton = getInButtonTransport;
+            GetInButtonTransportbutton.SetActive(true);
+            GetInButtonDriver2021button.SetActive(false);
+        }
+        currentCarIndexDealership = index;
         carDescription.text = carDescriptions[index];
         carName.text = carNames[index];
         
@@ -82,7 +152,7 @@ public class DealershipCarManager : MonoBehaviour
     {
         carsPurchased.Add(carNames[currentCarIndexDealership]);
         currentCash -= carPrices[currentCarIndexDealership];
-        SwitchCar(currentCarIndexDealership, carNames[currentCarIndexDealership]);
         Debug.Log($"Purchased {carNames[currentCarIndexDealership]} at {carPrices[currentCarIndexDealership]}");
+        carPrice.text = "PURCHASED";
     }
 }
