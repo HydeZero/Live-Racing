@@ -38,7 +38,7 @@ public class RaceManager : MonoBehaviour
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerControllerCareerScript = GameObject.Find("Player").GetComponent<PlayerControllerCareer>();
-        opponentAIScript = GameObject.Find("AI").GetComponent<OpponentAI>();
+        opponentAIScript = GameObject.Find("AISteven").GetComponent<OpponentAI>();
     }
 
     // Update is called once per frame
