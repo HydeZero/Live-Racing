@@ -18,6 +18,7 @@ public class PlayerControllerCareer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(GetPlayerRB());
         playerRB = gameObject.GetComponent<Rigidbody>();
     }
 
@@ -36,12 +37,12 @@ public class PlayerControllerCareer : MonoBehaviour
         }
         horizontalInput = Input.GetAxis("Horizontal");
         accelerationInput = Input.GetAxis("Vertical");
-        if (onGround && !(carSpeed.x <= .01f) && !(carSpeed.y <= .01f) && !(carSpeed.z <= .01f))
+        if (onGround && (!(carSpeed.x <= .01f) && !(carSpeed.y <= .01f) && !(carSpeed.z <= .01f)))
         {
             playerRB.AddRelativeForce(new Vector3(0, 0, speed * (accelerationInput - .2f) * Time.deltaTime), ForceMode.Acceleration);
             transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
         }
-        else
+        else if (onGround)
         {
             playerRB.AddRelativeForce(new Vector3(0, 0, speed * accelerationInput * Time.deltaTime), ForceMode.Acceleration);
             transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
@@ -54,7 +55,7 @@ public class PlayerControllerCareer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        if (other.name == "GroundTrigger")
         {
             onGround = true;
         }
@@ -62,9 +63,16 @@ public class PlayerControllerCareer : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        if (other.name == "GroundTrigger")
         {
             onGround = false;
         }
+    }
+
+    public IEnumerator GetPlayerRB()
+    {
+        playerRB = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
+        yield return new WaitForSecondsRealtime(.5f);
+        StartCoroutine(GetPlayerRB());
     }
 }

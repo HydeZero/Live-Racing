@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 415118394641709252}
   - component: {fileID: -8819495636896340998}
   - component: {fileID: -2085691547886291420}
+  - component: {fileID: 1197304286022606963}
   m_Layer: 0
   m_Name: PlayerKyle Driver 2021
   m_TagString: Player
@@ -76,6 +77,19 @@ MonoBehaviour:
   carspeedcalcA: {x: 0, y: 0, z: 0}
   carspeedcalcB: {x: 0, y: 0, z: 0}
   switching: 0
+--- !u!65 &1197304286022606963
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415118394641709255}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.0007105, y: 2.4648254, z: 5.0806847}
+  m_Center: {x: -0.12683535, y: 0.7324127, z: 0.9169483}
 --- !u!1 &415118394716015305
 GameObject:
   m_ObjectHideFlags: 0

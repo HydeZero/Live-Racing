@@ -33,7 +33,8 @@ public class DealershipCarManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("PlayerLukeman Transporter 2019");
+        player = GameObject.FindGameObjectWithTag("Player");
+        StartCoroutine(ConstantlyGetPlayer());
     }
 
     void Update()
@@ -41,12 +42,9 @@ public class DealershipCarManager : MonoBehaviour
         if (isRecieverActive && Input.GetKeyDown(KeyCode.E))
         {
             dealershipGUI.SetActive(true);
-            if (player == null)
-            {
-                player = GameObject.Find($"Player{carName.text}(Clone)");
-            }
             playerPosition = player.transform.position;
             playerRotation = player.transform.rotation;
+            dealershipNotification.SetActive(false);
         }
         currentCashObject.text = $"Cash: ${currentCash}";
     }
@@ -56,6 +54,7 @@ public class DealershipCarManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isRecieverActive = true;
+            dealershipNotification.SetActive(true);
         }
     }
     // If the player is not touching anymore, deactivate the receiver.
@@ -64,13 +63,14 @@ public class DealershipCarManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isRecieverActive = false;
+            dealershipNotification.SetActive(false);
         }
     }
 
     public void ExitDealershipGUI()
     {
         dealershipGUI.SetActive(false);
-        
+        dealershipNotification.SetActive(true);
     }
 
     public void SwitchCar(string CarName)
@@ -150,9 +150,28 @@ public class DealershipCarManager : MonoBehaviour
 
     public void PurchaseCars()
     {
-        carsPurchased.Add(carNames[currentCarIndexDealership]);
-        currentCash -= carPrices[currentCarIndexDealership];
-        Debug.Log($"Purchased {carNames[currentCarIndexDealership]} at {carPrices[currentCarIndexDealership]}");
-        carPrice.text = "PURCHASED";
+        if (carsPurchased.Contains(carNames[currentCarIndexDealership]))
+        {
+            carPrice.text = "PURCHASED";
+        } else if (!carsPurchased.Contains(carNames[currentCarIndexDealership]))
+        {
+            if (currentCash >= carPrices[currentCarIndexDealership])
+            {
+                carsPurchased.Add(carNames[currentCarIndexDealership]);
+                currentCash -= carPrices[currentCarIndexDealership];
+                Debug.Log($"Purchased {carNames[currentCarIndexDealership]} at {carPrices[currentCarIndexDealership]}");
+                carPrice.text = "PURCHASED";
+            } else
+            {
+                carPrice.text = "NOT ENOUGH CASH";
+            }
+        }
+    }
+
+    public IEnumerator ConstantlyGetPlayer()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        yield return new WaitForSecondsRealtime(1);
+        StartCoroutine(ConstantlyGetPlayer());
     }
 }

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public RaceManager raceManagerScript;
     public GameObject ResultPanel;
     public TextMeshProUGUI resultsText;
+    public GameObject cashIndicator;
 
     // Start is called before the first frame update
     void Start()
@@ -63,5 +64,6 @@ public class GameManager : MonoBehaviour
             raceManagerScript.DowntownRaceWalls.SetActive(false);
             raceManagerScript.DowntownPlayerDetector.SetActive(true);
         }
+        cashIndicator.SetActive(true);
     }
 }

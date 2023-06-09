@@ -33,6 +33,7 @@ public class RaceManager : MonoBehaviour
     public OpponentAI opponentAIScript;
     public DealershipCarManager dealershipCarManagerScript;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,10 +49,11 @@ public class RaceManager : MonoBehaviour
     {
         if (IsButtonReceiverActive && Input.GetKeyDown(KeyCode.E))
         {
-            Player = GameObject.Find($"Player{dealershipCarManagerScript.carName.text}");
+            Player = GameObject.FindGameObjectWithTag("Player");
             PlayerPosition = Player.transform.position;
             PlayerRotation = Player.transform.rotation;
             BeginRaceButtonPressed();
+            gameManagerScript.cashIndicator.SetActive(false);
         }
     }
 
@@ -78,6 +80,7 @@ public class RaceManager : MonoBehaviour
         }
         InitiateCheckpointList();
         SelectButtonText.gameObject.SetActive(false);
+        gameManagerScript.cashIndicator.SetActive(false);
         isRaceActive = true;
         lap = 1;
         LapText.gameObject.SetActive(true);
@@ -112,6 +115,7 @@ public class RaceManager : MonoBehaviour
     {
         RaceTypeSelectMenu.SetActive(false);
         Time.timeScale = 1;
+        gameManagerScript.cashIndicator.SetActive(true);
     }
 
     public void ActivateButtonReceiver()
@@ -203,7 +207,7 @@ public class RaceManager : MonoBehaviour
         if (progressScript.uniqueEventsFinishedCount == progressScript.totalUniqueEvents)
         {
             gameManagerScript.resultsText.fontSize = 26;
-            gameManagerScript.resultsText.text = $"CONGRATULATIONS! The {RaceNameSelected} {Type} was the only race you needed to do to get 100% completion! You took {Timer} seconds \n Thanks for playing!";
+            gameManagerScript.resultsText.text = $"CONGRATULATIONS! The {RaceNameSelected} {Type} was the only race you needed to do to get 100% completion! You took {Timer} seconds to complete this race. \n Thanks for playing!";
         }
         else
         {
@@ -220,6 +224,8 @@ public class RaceManager : MonoBehaviour
             isRaceActive = false;
             LapText.gameObject.SetActive(false);
             Player.transform.SetPositionAndRotation(PlayerPosition, PlayerRotation);
+            DowntownRaceWalls.SetActive(false);
+            DowntownPlayerDetector.SetActive(true);
         }
         gameManagerScript.ResumeGame();
     }
