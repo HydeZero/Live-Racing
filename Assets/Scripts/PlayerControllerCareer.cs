@@ -1,50 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerControllerCareer : MonoBehaviour
 {
     public float horizontalInput;
     public float accelerationInput;
-    public float speed;
+    public float accelerationForce;
     public float turnSpeed;
     public Rigidbody playerRB;
-    public Vector3 direction;
     public bool onGround;
-    public Vector3 carSpeed;
-    public Vector3 carspeedcalcA;
-    public Vector3 carspeedcalcB;
-    public int switching;
+    public float topSpeed;
+    public TextMeshProUGUI speedometer;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(GetPlayerRB());
         playerRB = gameObject.GetComponent<Rigidbody>();
+        speedometer = GameObject.Find("Speedometer").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (switching == 0)
-        {
-            carspeedcalcA = playerRB.gameObject.transform.position;
-            switching = 1;
-        } else if (switching == 1)
-        {
-            carspeedcalcB = playerRB.gameObject.transform.position;
-            carSpeed = carspeedcalcA - carspeedcalcB;
-            switching = 0;
-        }
+        speedometer.text = $"Speed: {(int)playerRB.velocity.magnitude} MPH";
         horizontalInput = Input.GetAxis("Horizontal");
         accelerationInput = Input.GetAxis("Vertical");
-        if (onGround && (!(carSpeed.x <= .01f) && !(carSpeed.y <= .01f) && !(carSpeed.z <= .01f)))
+        if (onGround && playerRB.velocity.magnitude < .01f)
         {
-            playerRB.AddRelativeForce(new Vector3(0, 0, speed * (accelerationInput - .2f) * Time.deltaTime), ForceMode.Acceleration);
+            playerRB.AddRelativeForce(new Vector3(0, 0, accelerationForce * accelerationInput * Time.deltaTime), ForceMode.Acceleration);
             transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
-        }
-        else if (onGround)
+        } else if (onGround && playerRB.velocity.magnitude < topSpeed)
         {
-            playerRB.AddRelativeForce(new Vector3(0, 0, speed * accelerationInput * Time.deltaTime), ForceMode.Acceleration);
+            playerRB.AddRelativeForce(new Vector3(0, 0, accelerationForce * (accelerationInput - .2f) * Time.deltaTime), ForceMode.Acceleration);
+            transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
+        } else if (onGround)
+        {
             transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
         }
         if (Input.GetKeyDown(KeyCode.F))

@@ -5,7 +5,7 @@ You are free to make any modifications to this game, provided you:
 * Don't make profits off of very small modifications (like bug fixes, minor features, etc.)
 
 ## So, about that second rule...
-"Don't sell it as an different game" is a complicated rule. In a sense, if you modify the game only a little bit (as stated in the third rule), you CANNOT make it an original game. (you can make the modded game avaliable for download, so people can still use it) If you make MAJOR changes (like full-on redesigns, major features, etc.), you CAN sell it as an original game. Just make sure to credit me for the assets and the original game.
+"Don't sell it as an different game" is a complicated rule. If you modify the game only a little bit (as stated in the third rule), you CANNOT sell it as an original game. (you can make the modded game avaliable for download, so people can still use it) If you make MAJOR changes (like full-on redesigns, major features, etc.), you CAN sell it as an original game. Just make sure to credit me for the assets and the original game.
 
 Now, with that out of the way, lets now go over...
 # How to mod the game
@@ -28,5 +28,4 @@ You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING 
 5. Scale the model as needed so that it is similar in size to the original car.
 6. Add the box collider and rigidbody components.
 7. Add the PlayerControllerCareer script.
-Now, you need to configure the car. Set the rigidbody's weight.
-
+Now, you need to configure the car. Set the rigidbody's weight. It should be around 1000. Set the top speed and the turn speed. The top speed is in Vector3 magnitude (the length of the vector). The turn speed is calculated by Time.deltaTime * turnSpeed (the variable) * horizontalInput * accelerationInput.

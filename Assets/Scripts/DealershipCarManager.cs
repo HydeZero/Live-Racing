@@ -30,6 +30,7 @@ public class DealershipCarManager : MonoBehaviour
     public int carnameindex;
     public GameObject GetInButtonTransportbutton;
     public GameObject GetInButtonDriver2021button;
+    public GameObject speedometer;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +43,7 @@ public class DealershipCarManager : MonoBehaviour
         if (isRecieverActive && Input.GetKeyDown(KeyCode.E))
         {
             dealershipGUI.SetActive(true);
+            speedometer.SetActive(false);
             playerPosition = player.transform.position;
             playerRotation = player.transform.rotation;
             dealershipNotification.SetActive(false);
@@ -70,6 +72,7 @@ public class DealershipCarManager : MonoBehaviour
     public void ExitDealershipGUI()
     {
         dealershipGUI.SetActive(false);
+        speedometer.SetActive(true);
         dealershipNotification.SetActive(true);
     }
 
