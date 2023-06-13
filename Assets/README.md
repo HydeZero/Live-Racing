@@ -28,4 +28,4 @@ You first need to make the vehicle model. DON'T WASTE TIME WITH ADDING SPINNING 
 5. Scale the model as needed so that it is similar in size to the original car.
 6. Add the box collider and rigidbody components.
 7. Add the PlayerControllerCareer script.
-Now, you need to configure the car. Set the rigidbody's weight. It should be around 1000. Set the top speed and the turn speed. The top speed is in Vector3 magnitude (the length of the vector). The turn speed is calculated by Time.deltaTime * turnSpeed (the variable) * horizontalInput * accelerationInput.
+Now, you need to configure the car. Set the rigidbody's weight. It should be around 1000. Set the top speed and the turn speed. The top speed is in Vector3 magnitude (the length of the vector).

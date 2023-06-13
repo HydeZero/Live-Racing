@@ -30,14 +30,17 @@ public class PlayerControllerCareer : MonoBehaviour
         if (onGround && playerRB.velocity.magnitude < .01f)
         {
             playerRB.AddRelativeForce(new Vector3(0, 0, accelerationForce * accelerationInput * Time.deltaTime), ForceMode.Acceleration);
-            transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
+            if (playerRB.velocity.magnitude > .1f)
+            {
+                transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * Mathf.Sin(playerRB.velocity.magnitude / topSpeed * Mathf.PI) + turnSpeed/100));
+            }
         } else if (onGround && playerRB.velocity.magnitude < topSpeed)
         {
             playerRB.AddRelativeForce(new Vector3(0, 0, accelerationForce * (accelerationInput - .2f) * Time.deltaTime), ForceMode.Acceleration);
-            transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
-        } else if (onGround)
-        {
-            transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * accelerationInput));
+            if (playerRB.velocity.magnitude > .1f)
+            {
+                transform.Rotate(new Vector3(0, Time.deltaTime * turnSpeed * horizontalInput * Mathf.Sin(playerRB.velocity.magnitude / topSpeed * Mathf.PI)));
+            }
         }
         if (Input.GetKeyDown(KeyCode.F))
         {

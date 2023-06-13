@@ -32,7 +32,9 @@ public class RaceManager : MonoBehaviour
     public PlayerControllerCareer playerControllerCareerScript;
     public OpponentAI opponentAIScript;
     public DealershipCarManager dealershipCarManagerScript;
-
+    public GameObject notice;
+    public GameObject notice2;
+    public bool isTestModeActive;
 
     // Start is called before the first frame update
     void Start()
@@ -57,12 +59,37 @@ public class RaceManager : MonoBehaviour
         }
     }
 
+    public void ExitNotice()
+    {
+        if (!Input.GetKeyDown(KeyCode.RightShift))
+        {
+            notice.SetActive(false);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            notice2.SetActive(true);
+        }
+    }
+
+    public void ExitNotice2(int exitType)
+    {
+        if (exitType == 0)
+        {
+            notice2.SetActive(false);
+        } else if (exitType == 1)
+        {
+            notice2.SetActive(false);
+            Type = "Race";
+            CheckRaceName(RaceNameSelected);
+        }
+    }
     public void BeginRace(string raceType)
     {
         if (raceType == "regular")
         {
-            Type = "Race";
-            CheckRaceName(RaceNameSelected);
+            notice.SetActive(true);
+            //Type = "Race";
+            //CheckRaceName(RaceNameSelected);
         }
         else if (raceType == "timeTrial")
         {

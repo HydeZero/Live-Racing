@@ -18,6 +18,7 @@ public class OpponentAI : MonoBehaviour
     public int AIOffsetX;
     public int AIOffsetZ;
     public int RacePosition;
+    public bool isRaceActive;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,10 @@ public class OpponentAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isRaceActive)
+        {
+            RacingAIProcess();
+        }
     }
 
     public void InitiateRacingAI()
@@ -37,6 +41,8 @@ public class OpponentAI : MonoBehaviour
         {
             transform.position = new Vector3(70 + AIOffsetX, 0.3f, -353 + AIOffsetZ);
         }
+        NextCheckpoint = GameObject.Find($"{RaceName}Checkpoint{checkpointIndex}");
+        isRaceActive = true;
     }
 
     public void RacingAIProcess()
@@ -66,7 +72,7 @@ public class OpponentAI : MonoBehaviour
                 Debug.Log($"No Offset Needed for AI: {AIName}, since they are in first.");
             } else if (RacePosition == 2)
             {
-
+                Debug.Log("Lol this is still in development");
             }
         }
     }
