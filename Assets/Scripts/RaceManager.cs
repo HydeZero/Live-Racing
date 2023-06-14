@@ -35,6 +35,7 @@ public class RaceManager : MonoBehaviour
     public GameObject notice;
     public GameObject notice2;
     public bool isTestModeActive;
+    public SaveDataManager saveDataManagerScript;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class RaceManager : MonoBehaviour
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerControllerCareerScript = GameObject.Find("PlayerLukeman Transporter 2019").GetComponent<PlayerControllerCareer>();
         opponentAIScript = GameObject.Find("AISteven").GetComponent<OpponentAI>();
+        saveDataManagerScript = GameObject.Find("SaveDataManager").GetComponent<SaveDataManager>();
     }
 
     // Update is called once per frame
@@ -56,16 +58,17 @@ public class RaceManager : MonoBehaviour
             PlayerRotation = Player.transform.rotation;
             BeginRaceButtonPressed();
             gameManagerScript.cashIndicator.SetActive(false);
+            playerControllerCareerScript.speedometer.gameObject.SetActive(false);
         }
     }
 
     public void ExitNotice()
     {
-        if (!Input.GetKeyDown(KeyCode.RightShift))
+        if (!Input.GetKey(KeyCode.RightShift))
         {
             notice.SetActive(false);
         }
-        else if (Input.GetKeyDown(KeyCode.RightShift))
+        else if (Input.GetKey(KeyCode.RightShift))
         {
             notice2.SetActive(true);
         }
@@ -78,23 +81,49 @@ public class RaceManager : MonoBehaviour
             notice2.SetActive(false);
         } else if (exitType == 1)
         {
+            saveDataManagerScript.SaveGameData();
+            isTestModeActive = true;
+            StopCoroutine(saveDataManagerScript.AutoSave());
             notice2.SetActive(false);
-            Type = "Race";
-            CheckRaceName(RaceNameSelected);
+            notice.SetActive(false);
+            progressScript.totalUniqueEvents *= 2;
         }
     }
     public void BeginRace(string raceType)
     {
         if (raceType == "regular")
         {
-            notice.SetActive(true);
-            //Type = "Race";
-            //CheckRaceName(RaceNameSelected);
+            if (!isTestModeActive)
+            {
+                notice.SetActive(true);
+            } else if (isTestModeActive)
+            {
+                Type = "Race";
+                CheckRaceName(RaceNameSelected);
+                InitiateCheckpointList();
+                SelectButtonText.gameObject.SetActive(false);
+                gameManagerScript.cashIndicator.SetActive(false);
+                isRaceActive = true;
+                lap = 1;
+                LapText.gameObject.SetActive(true);
+                LapText.text = $"Lap: {lap}/{TotalLaps}";
+                StartCoroutine(TimerTick());
+                playerControllerCareerScript.speedometer.gameObject.SetActive(true);
+            }
         }
         else if (raceType == "timeTrial")
         {
             Type = "Time Trial";
             CheckRaceName(RaceNameSelected);
+            InitiateCheckpointList();
+            SelectButtonText.gameObject.SetActive(false);
+            gameManagerScript.cashIndicator.SetActive(false);
+            isRaceActive = true;
+            lap = 1;
+            LapText.gameObject.SetActive(true);
+            LapText.text = $"Lap: {lap}/{TotalLaps}";
+            StartCoroutine(TimerTick());
+            playerControllerCareerScript.speedometer.gameObject.SetActive(true);
         }
         else
         {
@@ -105,14 +134,6 @@ public class RaceManager : MonoBehaviour
             Application.Quit();
 #endif
         }
-        InitiateCheckpointList();
-        SelectButtonText.gameObject.SetActive(false);
-        gameManagerScript.cashIndicator.SetActive(false);
-        isRaceActive = true;
-        lap = 1;
-        LapText.gameObject.SetActive(true);
-        LapText.text = $"Lap: {lap}/{TotalLaps}";
-        StartCoroutine(TimerTick());
     }
 
     public void CheckRaceName(string raceName)

@@ -70,7 +70,7 @@ public class SaveDataManager : MonoBehaviour
         }
     }
 
-    IEnumerator AutoSave()
+    public IEnumerator AutoSave()
     {
         AutoSaveIndicator.SetActive(true);
         SaveGameData();
