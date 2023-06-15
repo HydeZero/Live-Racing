@@ -496,7 +496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5243740868734055584, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
       propertyPath: m_Drag
-      value: 1.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5243740868734055584, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
       propertyPath: m_Mass
@@ -512,7 +512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5243740868734055586, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
       propertyPath: m_Name
-      value: Player Career
+      value: PlayerLukeman Transporter 2019
       objectReference: {fileID: 0}
     - target: {fileID: 5243740868734055586, guid: f4af85d7d8fa41e48b01008b802f0b3b, type: 3}
       propertyPath: m_TagString
@@ -589,8 +589,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalInput: 0
   accelerationInput: 0
-  speed: 5000
+  accelerationForce: 2000
   turnSpeed: 180
   playerRB: {fileID: 0}
-  direction: {x: 0, y: 0, z: 0}
   onGround: 1
+  topSpeed: 130
+  speedometer: {fileID: 0}

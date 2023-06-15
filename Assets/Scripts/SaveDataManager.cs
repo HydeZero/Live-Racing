@@ -10,6 +10,7 @@ public class SaveDataManager : MonoBehaviour
     public GameObject AutoSaveIndicator;
     public Progress progressScript;
     public RaceManager raceManagerScript;
+    public DealershipCarManager dealershipCarManagerScript;
 
     //public TMP_InputField inputField;
 
@@ -17,6 +18,7 @@ public class SaveDataManager : MonoBehaviour
     {
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         raceManagerScript = GameObject.Find("GameManager").GetComponent<RaceManager>();
+        dealershipCarManagerScript = GameObject.Find("CheckForPlayerDealership").GetComponent<DealershipCarManager>();
         LoadGameData();
         StartCoroutine(AutoSave());
     }
@@ -29,6 +31,7 @@ public class SaveDataManager : MonoBehaviour
         public int RacesCompleted;
         public int UniqueEventsCompleted;
         public List<string> UniqueRaces;
+        public List<string> carsPurchased;
     }
 
     public void SaveGameData()
@@ -39,7 +42,8 @@ public class SaveDataManager : MonoBehaviour
             playerName = PlayerName,
             RacesCompleted = progressScript.racesCompleteCount,
             UniqueEventsCompleted = progressScript.uniqueEventsFinishedCount,
-            UniqueRaces = progressScript.racesCompleteNames
+            UniqueRaces = progressScript.racesCompleteNames,
+            carsPurchased = dealershipCarManagerScript.carsPurchased
         };
 
         string json = JsonUtility.ToJson(data);
@@ -66,7 +70,7 @@ public class SaveDataManager : MonoBehaviour
         }
     }
 
-    IEnumerator AutoSave()
+    public IEnumerator AutoSave()
     {
         AutoSaveIndicator.SetActive(true);
         SaveGameData();

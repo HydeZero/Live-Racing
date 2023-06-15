@@ -31,14 +31,21 @@ public class RaceManager : MonoBehaviour
     public GameObject DowntownPlayerDetector;
     public PlayerControllerCareer playerControllerCareerScript;
     public OpponentAI opponentAIScript;
+    public DealershipCarManager dealershipCarManagerScript;
+    public GameObject notice;
+    public GameObject notice2;
+    public bool isTestModeActive;
+    public SaveDataManager saveDataManagerScript;
 
     // Start is called before the first frame update
     void Start()
     {
+        dealershipCarManagerScript = GameObject.Find("CheckForPlayerDealership").GetComponent<DealershipCarManager>();
         progressScript = GameObject.Find("GameManager").GetComponent<Progress>();
         gameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-        playerControllerCareerScript = GameObject.Find("Player").GetComponent<PlayerControllerCareer>();
+        playerControllerCareerScript = GameObject.Find("PlayerLukeman Transporter 2019").GetComponent<PlayerControllerCareer>();
         opponentAIScript = GameObject.Find("AISteven").GetComponent<OpponentAI>();
+        saveDataManagerScript = GameObject.Find("SaveDataManager").GetComponent<SaveDataManager>();
     }
 
     // Update is called once per frame
@@ -46,41 +53,87 @@ public class RaceManager : MonoBehaviour
     {
         if (IsButtonReceiverActive && Input.GetKeyDown(KeyCode.E))
         {
+            Player = GameObject.FindGameObjectWithTag("Player");
             PlayerPosition = Player.transform.position;
             PlayerRotation = Player.transform.rotation;
             BeginRaceButtonPressed();
+            gameManagerScript.cashIndicator.SetActive(false);
+            playerControllerCareerScript.speedometer.gameObject.SetActive(false);
         }
     }
 
+    public void ExitNotice()
+    {
+        if (!Input.GetKey(KeyCode.RightShift))
+        {
+            notice.SetActive(false);
+        }
+        else if (Input.GetKey(KeyCode.RightShift))
+        {
+            notice2.SetActive(true);
+        }
+    }
+
+    public void ExitNotice2(int exitType)
+    {
+        if (exitType == 0)
+        {
+            notice2.SetActive(false);
+        } else if (exitType == 1)
+        {
+            saveDataManagerScript.SaveGameData();
+            isTestModeActive = true;
+            StopCoroutine(saveDataManagerScript.AutoSave());
+            notice2.SetActive(false);
+            notice.SetActive(false);
+            progressScript.totalUniqueEvents *= 2;
+        }
+    }
     public void BeginRace(string raceType)
     {
         if (raceType == "regular")
         {
-            Type = "Race";
-            CheckRaceName(RaceNameSelected);
+            if (!isTestModeActive)
+            {
+                notice.SetActive(true);
+            } else if (isTestModeActive)
+            {
+                Type = "Race";
+                CheckRaceName(RaceNameSelected);
+                InitiateCheckpointList();
+                SelectButtonText.gameObject.SetActive(false);
+                gameManagerScript.cashIndicator.SetActive(false);
+                isRaceActive = true;
+                lap = 1;
+                LapText.gameObject.SetActive(true);
+                LapText.text = $"Lap: {lap}/{TotalLaps}";
+                StartCoroutine(TimerTick());
+                playerControllerCareerScript.speedometer.gameObject.SetActive(true);
+            }
         }
         else if (raceType == "timeTrial")
         {
             Type = "Time Trial";
             CheckRaceName(RaceNameSelected);
+            InitiateCheckpointList();
+            SelectButtonText.gameObject.SetActive(false);
+            gameManagerScript.cashIndicator.SetActive(false);
+            isRaceActive = true;
+            lap = 1;
+            LapText.gameObject.SetActive(true);
+            LapText.text = $"Lap: {lap}/{TotalLaps}";
+            StartCoroutine(TimerTick());
+            playerControllerCareerScript.speedometer.gameObject.SetActive(true);
         }
         else
         {
 #if UNITY_EDITOR
             Debug.Log("Error R1: Race Type Doesn't Exist");
             EditorApplication.ExitPlaymode();
-            
 #else
-            Application.ForceCrash
+            Application.Quit();
 #endif
         }
-        InitiateCheckpointList();
-        SelectButtonText.gameObject.SetActive(false);
-        isRaceActive = true;
-        lap = 1;
-        LapText.gameObject.SetActive(true);
-        LapText.text = $"Lap: {lap}/{TotalLaps}";
-        StartCoroutine(TimerTick());
     }
 
     public void CheckRaceName(string raceName)
@@ -110,6 +163,7 @@ public class RaceManager : MonoBehaviour
     {
         RaceTypeSelectMenu.SetActive(false);
         Time.timeScale = 1;
+        gameManagerScript.cashIndicator.SetActive(true);
     }
 
     public void ActivateButtonReceiver()
@@ -139,6 +193,7 @@ public class RaceManager : MonoBehaviour
             progressScript.uniqueEventsFinishedCount++;
         }
         isRaceActive = false;
+        dealershipCarManagerScript.currentCash += 10000;
         ShowRaceResults();
     }
 
@@ -151,6 +206,7 @@ public class RaceManager : MonoBehaviour
             progressScript.uniqueEventsFinishedCount++;
         }
         isRaceActive = false;
+        dealershipCarManagerScript.currentCash += 20000;
         ShowRaceResults();
     }
 
@@ -199,7 +255,7 @@ public class RaceManager : MonoBehaviour
         if (progressScript.uniqueEventsFinishedCount == progressScript.totalUniqueEvents)
         {
             gameManagerScript.resultsText.fontSize = 26;
-            gameManagerScript.resultsText.text = $"CONGRATULATIONS! The {RaceNameSelected} {Type} was the only race you needed to do to get 100% completion! You took {Timer} seconds \n Thanks for playing!";
+            gameManagerScript.resultsText.text = $"CONGRATULATIONS! The {RaceNameSelected} {Type} was the only race you needed to do to get 100% completion! You took {Timer} seconds to complete this race. \n Thanks for playing!";
         }
         else
         {
@@ -216,6 +272,8 @@ public class RaceManager : MonoBehaviour
             isRaceActive = false;
             LapText.gameObject.SetActive(false);
             Player.transform.SetPositionAndRotation(PlayerPosition, PlayerRotation);
+            DowntownRaceWalls.SetActive(false);
+            DowntownPlayerDetector.SetActive(true);
         }
         gameManagerScript.ResumeGame();
     }

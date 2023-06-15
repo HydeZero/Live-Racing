@@ -8,6 +8,7 @@ TagManager:
   - Powerup
   - Plane
   - Ground
+  - AI
   layers:
   - Default
   - TransparentFX

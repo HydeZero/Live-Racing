@@ -21,7 +21,8 @@ public class WaterManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene("Career Mode");
+            other.transform.position = new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z - 50);
+            other.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         }
     }
 }
